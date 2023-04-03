@@ -31,7 +31,8 @@ label{
 }
 .adr{
     float: left;
-    flex: 30%;
+    flex: 50%;
+    padding-right: 2px;
 }
 
 .input_container{
