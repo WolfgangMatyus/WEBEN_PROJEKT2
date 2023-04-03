@@ -18,6 +18,22 @@ body{
     min-height: 100vh;
 }
 
+label{
+    color:#000;
+}
+
+.input_container .input_row{
+    margin-bottom: 12px;
+}
+
+#adresse{
+    display: flex;
+}
+.adr{
+    float: left;
+    flex: 30%;
+}
+
 .input_container{
     width: 600px;
     background-color: #fff;
@@ -25,11 +41,6 @@ body{
     border-radius: 15px;
     box-shadow: 0 0 25px rgba(0,0,0,0.3);
     border: 10px solid #41b9ff;
-}
-
-.input_container .input_row{
-    margin-bottom: 12px;
-
 }
 
 .input_container input:not([type="submit"]),
