@@ -1,6 +1,7 @@
 
 //-----REGISTRATION--------//
-    //VALIDATION:
+
+    //VALIDATION: https://jqueryvalidation.org/
     $("#formValidation").validate({
         rules:{
             Vorname:{
