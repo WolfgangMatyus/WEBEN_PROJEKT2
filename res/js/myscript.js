@@ -1,4 +1,3 @@
-
 //-----REGISTRATION--------//
 
     //VALIDATION: https://jqueryvalidation.org/
@@ -69,3 +68,19 @@
         success: function () {alert("Thanks!"); },
         failure: function() {alert("Error!");}
     });
+
+
+    //WRITE JSON JQUERY POST: https://api.jquery.com/jquery.post/
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        success: success,
+        dataType: dataType
+      });
+
+      $.post( "ajax/test.html", function( data ) {
+        $( ".result" ).html( data );
+      });
+
+      $.post( "../../BE/spring/backend.java", { name: "John", time: "2pm" } );
