@@ -1,0 +1,44 @@
+version: '3.8'
+
+networks:
+  be-network:
+    driver: bridge
+
+volumes:
+  rsystem-db:
+
+services:
+  web_mysql:
+    image: mysql:8.0
+    container_name: web_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: rsystem
+    ports:
+      - "3306:3306"
+    networks:
+      - be-network
+    volumes:
+      - rsystem-db:/var/lib/mysql
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h localhost" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  web_app:
+    build: .
+    container_name: web_app
+    networks:
+      - be-network
+    ports:
+      - "8181:8181"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://web_mysql:3306/rsystem?allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: password
+    depends_on:
+      web_mysql:
+        condition: service_healthy
+    links:
+      - web_mysql

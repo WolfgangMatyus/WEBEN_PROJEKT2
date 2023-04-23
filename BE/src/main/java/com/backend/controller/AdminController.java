@@ -6,13 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/user")
-public class CustomerController {
+@RequestMapping("/api/v1/admin")
+public class AdminController {
 
     @GetMapping("/get")
-    public ResponseEntity<String> getCustomer() {
-        return ResponseEntity.ok("CUSTOMER WORKS");
+    public ResponseEntity<String> getAdmin() {
+        return ResponseEntity.ok("ADMIN WORKS");
     }
-
 }
-

@@ -2,6 +2,6 @@ package com.backend.security.user;
 
 public enum Role {
 
-  CUSTOMER,
-  ADMIN
+  ROLE_USER,
+  ROLE_ADMIN
 }

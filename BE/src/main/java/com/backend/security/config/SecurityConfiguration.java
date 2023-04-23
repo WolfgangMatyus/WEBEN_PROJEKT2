@@ -1,11 +1,14 @@
 package com.backend.security.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -21,16 +24,25 @@ public class SecurityConfiguration {
   private final AuthenticationProvider authenticationProvider;
   private final LogoutHandler logoutHandler;
 
+  @Value("${spring.websecurity.debug:false}")
+  boolean webSecurityDebug;
+
+  @Bean
+  public WebSecurityCustomizer webSecurityCustomizer() {
+    return (web) -> web.debug(webSecurityDebug);
+  }
+
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
         .csrf()
         .disable()
         .authorizeHttpRequests()
-        .requestMatchers("/api/v1/auth/**")
-          .permitAll()
-        .anyRequest()
-          .authenticated()
+        .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
+        .requestMatchers(HttpMethod.POST, "/api/v1/shop/**").permitAll()
+        .requestMatchers(HttpMethod.GET, "/api/v1/user/**").hasAnyRole("USER", "ADMIN")
+        .requestMatchers(HttpMethod.GET, "/api/v1/admin/**").hasAnyRole("ADMIN")
+        .anyRequest().authenticated()
         .and()
           .sessionManagement()
           .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -41,6 +53,8 @@ public class SecurityConfiguration {
         .logoutUrl("/api/v1/auth/logout")
         .addLogoutHandler(logoutHandler)
         .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+        .and()
+        .exceptionHandling()
     ;
 
     return http.build();
