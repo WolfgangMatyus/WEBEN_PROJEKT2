@@ -57,7 +57,6 @@
         }
        });
 
-   //WRITE JSON:
    $.ajax
     ({
         type: "GET",

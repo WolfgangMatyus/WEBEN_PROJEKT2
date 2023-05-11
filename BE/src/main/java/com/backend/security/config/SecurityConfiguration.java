@@ -42,6 +42,7 @@ public class SecurityConfiguration {
         .requestMatchers(HttpMethod.POST, "/api/v1/shop/**").permitAll()
         .requestMatchers(HttpMethod.GET, "/api/v1/user/**").hasAnyRole("USER", "ADMIN")
         .requestMatchers(HttpMethod.GET, "/api/v1/admin/**").hasAnyRole("ADMIN")
+        .requestMatchers(HttpMethod.GET, "/**").permitAll()
         .anyRequest().authenticated()
         .and()
           .sessionManagement()
