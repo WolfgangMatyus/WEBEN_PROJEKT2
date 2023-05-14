@@ -12,6 +12,6 @@ public class ShopController {
     @GetMapping("/get")
     public ResponseEntity<String> getShop() {
 
-        return ResponseEntity.ok("");
+        return ResponseEntity.ok("tes");
     }
 }

@@ -57,29 +57,41 @@
         }
        });
 
-   $.ajax
-    ({
-        type: "GET",
-        dataType : 'json',
-        async: false,
-        url: 'http://your.host/save_json.php',
-        data: { data: JSON.stringify(eventsholded) },
-        success: function () {alert("Thanks!"); },
-        failure: function() {alert("Error!");}
-    });
 
 
-    //WRITE JSON JQUERY POST: https://api.jquery.com/jquery.post/
-    $.ajax({
-        type: "POST",
-        url: url,
-        data: data,
-        success: success,
-        dataType: dataType
-      });
+$.ajax({
+    url: "/api/v1/auth/register",
+    method: "POST",
+    contentType: "application/json",
+    data: JSON.stringify({
+        email: "example@example.com",
+        password: "password123"
+    }),
+    success: function(data) {
+        console.log(data);
+        localStorage.setItem("token", data.token)
+       // window.location.replace("/login");
+        // Hier kommt die Logik hin, die nach erfolgreicher Anfrage ausgeführt werden soll
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.error(textStatus, errorThrown);
+        // Hier kommt die Logik hin, die im Falle eines Fehlers ausgeführt werden soll
+    }
+});
 
-      $.post( "ajax/test.html", function( data ) {
-        $( ".result" ).html( data );
-      });
 
-      $.post( "../../BE/spring/backend.java", { name: "John", time: "2pm" } );
+
+//WRITE JSON JQUERY POST: https://api.jquery.com/jquery.post/
+    // $.ajax({
+    //     type: "POST",
+    //     url: url,
+    //     data: data,
+    //     success: success,
+    //     dataType: dataType
+    //   });
+    //
+    //   $.post( "ajax/test.html", function( data ) {
+    //     $( ".result" ).html( data );
+    //   });
+
+      // $.post( "../../BE/spring/backend.java", { name: "John", time: "2pm" } );

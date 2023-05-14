@@ -11,10 +11,27 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
+  mvc:
+    view:
+      prefix: classpath:/templates/
+      suffix: .html
+  devtools:
+    livereload:
+      enabled: true
+  thymeleaf:
+    enabled: true
+    prefix: classpath:/templates/
+    suffix: .html
 server:
   port: 8181
+  error:
+    whitelabel:
+      enabled: false
 logging:
   level:
     org:
       springframework:
         security: DEBUG
+
+
+

@@ -2,6 +2,7 @@ package com.backend.security.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,11 +15,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfiguration {
+public class SecurityConfiguration implements WebMvcConfigurer {
 
   private final JwtAuthenticationFilter jwtAuthFilter;
   private final AuthenticationProvider authenticationProvider;
@@ -34,16 +40,19 @@ public class SecurityConfiguration {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    System.out.println(PathRequest.toStaticResources().atCommonLocations());
     http
         .csrf()
         .disable()
-        .authorizeHttpRequests()
-        .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
-        .requestMatchers(HttpMethod.POST, "/api/v1/shop/**").permitAll()
-        .requestMatchers(HttpMethod.GET, "/api/v1/user/**").hasAnyRole("USER", "ADMIN")
-        .requestMatchers(HttpMethod.GET, "/api/v1/admin/**").hasAnyRole("ADMIN")
-        .requestMatchers(HttpMethod.GET, "/**").permitAll()
-        .anyRequest().authenticated()
+        .authorizeHttpRequests((authorize) -> authorize
+          .requestMatchers(HttpMethod.GET, "/").permitAll()
+          .requestMatchers(HttpMethod.GET, "/registration").permitAll()
+          .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
+          .requestMatchers(HttpMethod.GET,"/api/v1/shop/**").permitAll()
+          .requestMatchers(HttpMethod.GET,"/api/v1/user/**").hasAnyRole("USER", "ADMIN")
+          .requestMatchers(HttpMethod.GET,"/api/v1/admin/**").hasAnyRole("ADMIN")
+          .anyRequest().authenticated()
+        ).formLogin()
         .and()
           .sessionManagement()
           .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -60,4 +69,5 @@ public class SecurityConfiguration {
 
     return http.build();
   }
+
 }
