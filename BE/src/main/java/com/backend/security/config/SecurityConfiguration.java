@@ -45,8 +45,10 @@ public class SecurityConfiguration implements WebMvcConfigurer {
         .csrf()
         .disable()
         .authorizeHttpRequests((authorize) -> authorize
+          .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
           .requestMatchers(HttpMethod.GET, "/").permitAll()
           .requestMatchers(HttpMethod.GET, "/registration").permitAll()
+          .requestMatchers(HttpMethod.GET, "/resources/**").permitAll()
           .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
           .requestMatchers(HttpMethod.GET,"/api/v1/shop/**").permitAll()
           .requestMatchers(HttpMethod.GET,"/api/v1/user/**").hasAnyRole("USER", "ADMIN")
@@ -57,17 +59,16 @@ public class SecurityConfiguration implements WebMvcConfigurer {
           .sessionManagement()
           .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
-        .authenticationProvider(authenticationProvider)
-        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-        .logout()
-        .logoutUrl("/api/v1/auth/logout")
-        .addLogoutHandler(logoutHandler)
-        .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+          .authenticationProvider(authenticationProvider)
+          .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+          .logout()
+          .logoutUrl("/api/v1/auth/logout")
+          .addLogoutHandler(logoutHandler)
+          .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
         .and()
-        .exceptionHandling()
+          .exceptionHandling()
     ;
 
     return http.build();
   }
-
 }

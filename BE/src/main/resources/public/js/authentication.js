@@ -1,5 +1,39 @@
 //-----REGISTRATION--------//
 
+function newRegistration() {
+
+    $(".submit").click(function(event) {
+        sendRegistrationData();
+    });
+
+}
+
+function sendRegistrationData(){
+    $.ajax({
+        url: "/api/v1/auth/register",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+            firstname:
+            email: "example@example.com",
+            password: "password123"
+
+        }),
+        success: function(data) {
+            console.log(data);
+            localStorage.setItem("token", data.token)
+            // window.location.replace("/login");
+            // Hier kommt die Logik hin, die nach erfolgreicher Anfrage ausgeführt werden soll
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error(textStatus, errorThrown);
+            // Hier kommt die Logik hin, die im Falle eines Fehlers ausgeführt werden soll
+        }
+    });
+}
+
+
+
     //VALIDATION: https://jqueryvalidation.org/
     $("#formValidation").validate({
         rules:{
@@ -59,25 +93,7 @@
 
 
 
-$.ajax({
-    url: "/api/v1/auth/register",
-    method: "POST",
-    contentType: "application/json",
-    data: JSON.stringify({
-        email: "example@example.com",
-        password: "password123"
-    }),
-    success: function(data) {
-        console.log(data);
-        localStorage.setItem("token", data.token)
-       // window.location.replace("/login");
-        // Hier kommt die Logik hin, die nach erfolgreicher Anfrage ausgeführt werden soll
-    },
-    error: function(jqXHR, textStatus, errorThrown) {
-        console.error(textStatus, errorThrown);
-        // Hier kommt die Logik hin, die im Falle eines Fehlers ausgeführt werden soll
-    }
-});
+
 
 
 
