@@ -22,6 +22,8 @@ spring:
     enabled: true
     prefix: classpath:/templates/
     suffix: .html
+    mode: HTML
+    cache: false
 server:
   port: 8181
   error:

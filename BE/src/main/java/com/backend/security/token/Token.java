@@ -25,6 +25,7 @@ public class Token {
   @GeneratedValue
   public Integer id;
 
+
   @Column(unique = true)
   public String token;
 
@@ -38,4 +39,8 @@ public class Token {
   @ManyToOne
   @JoinColumn(name = "user_id")
   public User user;
+
+  public String getToken() {
+    return token;
+  }
 }

@@ -1,19 +1,12 @@
 package com.backend.security.user;
 
 import com.backend.security.token.Token;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.util.Collection;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @AllArgsConstructor
 @Entity
 @Table(name = "_user")
+@ToString(exclude = "tokens")
 public class User implements UserDetails {
 
   @Id
@@ -37,8 +31,12 @@ public class User implements UserDetails {
   @Enumerated(EnumType.STRING)
   private Role role;
 
-  @OneToMany(mappedBy = "user")
+  @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
   private List<Token> tokens;
+
+  public List<Token> getTokens() {
+    return tokens;
+  }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -85,5 +83,12 @@ public class User implements UserDetails {
   @Override
   public boolean isEnabled() {
     return true;
+  }
+
+  public Object getToken() {
+    if (tokens != null && !tokens.isEmpty()) {
+      return tokens.get(0).getToken(); // Annahme: Es gibt nur einen Token pro Benutzer
+    }
+    return null;
   }
 }
