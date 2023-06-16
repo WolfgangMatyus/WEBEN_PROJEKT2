@@ -1,9 +1,4 @@
-//-----REGISTRATION--------//
-// Token in den Header setzen, wenn die Seite geladen wird
-$(document).ready(function() {
-    loginReady();
-});
-
+//-----LOGIN--------//
 
 function loginReady() {
 
@@ -11,6 +6,8 @@ function loginReady() {
         event.preventDefault();
         sendLoginData();
     });
+
+
 }
 
 function sendLoginData(){
@@ -34,24 +31,37 @@ function sendLoginData(){
         contentType: "application/json",
         data: JSON.stringify(data),
         success: function(response){
-            console.log(response.token);
-            // Annahme: 'response.token' enthält den erhaltenen Token
-            let token = response.token;
-            setCookie('token', token, 1); // Token für 1 Tage speichern
-            window.location.href = "/";
-            // pageloadCatcher();
+            if (response.statusCode === 200) {
+
+                // Speichern des JWT-Tokens im Session Storage
+                sessionStorage.setItem('jwtToken', 'Bearer ' + response.token);
+
+                // Lesen des JWT-Tokens aus dem Session Storage
+                var jwtToken = sessionStorage.getItem('jwtToken');
+
+                fetch('/', {
+                    headers: {
+                        'Authorization': jwtToken,
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                    .then(response => {
+                        // Verarbeiten Sie die Antwort des Servers
+                        console.log(response);
+                        // Hier kommt die Logik hin, die nach dem Seitenwechsel ausgeführt werden soll
+                        window.location.replace('/');
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        // Behandeln Sie etwaige Fehler
+                    });
+            } else {
+                alert('Authentifizierung fehlgeschlagen');
+            }
         },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.error(textStatus, errorThrown);
+        error: function(jqXHR, textStatus) {
+            console.error(textStatus);
             // Hier kommt die Logik hin, die im Falle eines Fehlers ausgeführt werden soll
         }
     });
-}
-
-// Funktion zum Setzen eines Cookies
-function setCookie(name, value, expirationDays) {
-    var date = new Date();
-    date.setTime(date.getTime() + (expirationDays * 24 * 60 * 60 * 1000));
-    var expires = "expires=" + date.toUTCString();
-    document.cookie = name + "=" + value + ";" + expires + ";path=/";
 }

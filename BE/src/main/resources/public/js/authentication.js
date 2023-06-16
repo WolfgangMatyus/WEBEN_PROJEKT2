@@ -1,28 +1,19 @@
 $(document).ready(function() {
-    // Token aus dem Cookie abrufen
-    var token = getCookie('token');
+    // Token aus dem Session Storage lesen
+    var jwtToken = sessionStorage.getItem('jwtToken');
 
-    // Überprüfen, ob ein Token vorhanden ist
-    if (token) {
-        // Setzen des Authorization-Headers für alle ausgehenden HTTP-Anfragen
+    // Funktion zum Hinzufügen des Token zu den Request-Headern
+    function addAuthorizationHeader(xhr) {
+        xhr.setRequestHeader('Authorization', '' + jwtToken);
+    }
+
+    // Funktion zum Hinzufügen des Tokens zu den Request-Headern
+    function addTokenToHeaders() {
         $.ajaxSetup({
-            headers: {
-                'Authorization': 'Bearer ' + token
-            }
+            beforeSend: addAuthorizationHeader
         });
     }
 
-    // Weitere Initialisierungen oder Aktionen hier ausführen
+    // Seitenwechsel oder Refresh der Seite
+    addTokenToHeaders();
 });
-
-// Funktion zum Abrufen eines Cookies
-function getCookie(name) {
-    var cookies = document.cookie.split(';');
-    for (var i = 0; i < cookies.length; i++) {
-        var cookie = cookies[i].trim();
-        if (cookie.indexOf(name + '=') === 0) {
-            return cookie.substring(name.length + 1);
-        }
-    }
-    return null;
-}

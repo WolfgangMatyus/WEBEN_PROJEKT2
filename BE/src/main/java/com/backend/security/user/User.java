@@ -1,6 +1,7 @@
 package com.backend.security.user;
 
 import com.backend.security.token.Token;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Collection;
@@ -26,12 +27,14 @@ public class User implements UserDetails {
   private String firstname;
   private String lastname;
   private String email;
+  @JsonIgnore
   private String password;
 
   @Enumerated(EnumType.STRING)
   private Role role;
 
   @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+  @JsonIgnore
   private List<Token> tokens;
 
   public List<Token> getTokens() {
