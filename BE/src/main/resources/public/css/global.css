@@ -1,3 +1,9 @@
 #globalbody {
     margin: 0px;
 }
+
+.container {
+    display: grid;
+    box-sizing: border-box;
+    border-style: solid;
+}
