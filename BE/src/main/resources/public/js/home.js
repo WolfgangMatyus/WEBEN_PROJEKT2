@@ -116,7 +116,7 @@ function loadProducts(data) {
                     +  '</div>'
 
         let cardImg = '<div class="cardimg h-100">'
-                    + '<img src=../../public/img/'+ data.img_path +' class="img-fluid" alt="Product Picture">'
+                    + '<img src=../../img/'+ data.img_path +' class="img-fluid" alt="Product Picture">'
                     + '</div>'
         
         $("#productList").append( '<div class="col">'
