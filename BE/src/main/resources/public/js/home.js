@@ -15,8 +15,8 @@ $(document).ready(function(){
 function getProducts(callback){
     $.ajax({
         method: "GET",
-        dataType: "json",
-        url: "localhost:8181/api/v1/shop/products",
+        contentType: "application/json",
+        url: "/api/v1/shop/products",
         success: function(json){
             console.log(json);
             callback(json);
