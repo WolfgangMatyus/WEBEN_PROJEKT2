@@ -24,7 +24,10 @@ public class Product {
 
     private String description;
 
-    private int price;
+    private float price;
+    private String img_path;
+    private String category;
+    private int rating;
 
     public Integer getId() {
         return id;
@@ -50,11 +53,11 @@ public class Product {
         this.description = description;
     }
 
-    public int getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 }

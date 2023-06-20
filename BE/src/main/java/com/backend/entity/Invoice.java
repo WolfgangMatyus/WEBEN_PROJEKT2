@@ -26,6 +26,8 @@ public class Invoice {
     @JoinColumn(name = "user_id")
     private User user;
 
+    private Float total;
+
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InvoiceEntry> invoiceEntries = new ArrayList<>();
 
