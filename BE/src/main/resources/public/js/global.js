@@ -7,7 +7,7 @@ function getProducts(){
     $.ajax({
         method: "GET",
         dataType: "json",
-        url: "../../Data/products.json",
+        url: "/api/v1/shop/products",
         success: function(json){
             console.log(json);
             products = json;
@@ -23,7 +23,7 @@ function getUser(){
     $.ajax({
         method: "GET",
         dataType: "json",
-        url: "../../Data/users.json",
+        url: "/api/v1/authorisation/users",
         success: function(json){
             console.log(json);
             userData = json;
@@ -39,7 +39,7 @@ function getCart(){
     $.ajax({
         method: "GET",
         dataType: "json",
-        url: "../../Data/cart.json",
+        url: "/api/v1/user/cart",
         success: function(json){
             console.log(json);
             cartData = json;

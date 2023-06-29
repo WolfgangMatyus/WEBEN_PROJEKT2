@@ -24,7 +24,7 @@ function getProducts() {
         $.ajax({
             method: "GET",
             dataType: "json",
-            url: "/api/v1/products",
+            url: "/api/v1/shop/products",
             success: function (json) {
                 //console.log(json);
                 products = json;
@@ -38,14 +38,14 @@ function getProducts() {
         });
     });
 }
-
+/*
 function getCart() {
     return new Promise(function (resolve, reject) {
         // WORKAROUND LOAD TEST cart.json
         $.ajax({
             method: "GET",
             dataType: "json",
-            url: "/api/v1/shop/products",
+            url: "/api/v1/user/cart",
             success: function (json) {
                 //console.log(json)
                 cartData = json;
@@ -60,20 +60,20 @@ function getCart() {
         // END WORKAROUND LOAD TEST cart.json
     });
 }
-
+*/
 //-- SearchFilter Visuals -- //
 function InitializeSearchFilter() {
     $("#categorySearchFilter").append(
         '<div id="filterContainer">' +
         '<select id="categoryFilter">' +
-        '<option value="">All Categories</option>' +
-        '<option value="Cardgame">Cardgame</option>' +
-        '<option value="Boardgame">Boardgame</option>' +
-        '<option value="Accesories">Accesories</option>' +
-        '<option value="rating">Rating</option>' +
+        '<option value="">Alle</option>' +
+        '<option value="Cardgame">Kartenspiel</option>' +
+        '<option value="Boardgame">Brettspiel</option>' +
+        '<option value="Accesories">Komponenten</option>' +
+        '<option value="rating">Bewertung</option>' +
         "</select>" +
         '<select id="priceFilter">' +
-        '<option value="">All Prices</option>' +
+        '<option value="">Alle Preise</option>' +
         '<option value="under25"> < €25</option>' +
         '<option value="25to50">€25 - €50</option>' +
         '<option value="over50"> > €50</option>' +
@@ -88,7 +88,9 @@ function filterProducts() {
     const searchKeyword = $("#searchInput").val().toLowerCase();
     const categoryFilter = $("#categoryFilter").val();
     const priceFilter = $("#priceFilter").val();
-
+    console.log("searchKeyword: " + searchKeyword);
+    console.log("categoryFilter: " + categoryFilter);
+    console.log("priceFilter: " + priceFilter);
     const filteredProducts = products.filter((product) => {
         const nameMatch = product.name.toLowerCase().includes(searchKeyword);
         const categoryMatch =
@@ -159,10 +161,9 @@ function loadProducts(data) {
 
         let cardImg =
             '<div class="cardimg h-100">' +
-            "<img src=../../public/img/" +
-            data.img_path +
+            '<img src="../img/'+ data.img_path +'"' +
             ' class="img-fluid" alt="Product Picture">' +
-            "</div>";
+            '</div>';
 
         $("#productList").append(
             '<div class="col">' +
@@ -197,7 +198,7 @@ function loadCartHTML() {
     let cartList =
         '<ul class="cartList" id="cartList">' +
         '<div class="Placeholder" id="cartListPlaceholder">' +
-        "You can drag a Product and drop it here to add it to the Shopping Cart!" +
+        "Sie können Ihre Produkte hier in die !" +
         "</div>" +
         "</ul>";
     let cartSum =

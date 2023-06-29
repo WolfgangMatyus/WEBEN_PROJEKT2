@@ -1,9 +1,7 @@
-
-
 $(document).ready(function(){
 
     createCartContent();
-    getCartFromBackendd();
+    //getCartFromBackendd();
 
 });
 
@@ -12,7 +10,7 @@ function toggleCartClick(event) {
     document.getElementById("cartContainer").classList.toggle("show");
 }
 
-
+/*
 function getCartFromBackendd(){
 
     $.ajax({
@@ -31,7 +29,7 @@ function getCartFromBackendd(){
         }
     })
 }
-
+*/
 function setCartProducts(data) {
 
     $(".Placeholder").remove();

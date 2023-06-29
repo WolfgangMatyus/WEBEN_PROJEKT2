@@ -1,13 +1,9 @@
 //-----LOGIN--------//
-
 function loginReady() {
-
     $("#submit-login").click(function(event) {
         event.preventDefault();
         sendLoginData();
     });
-
-
 }
 
 function sendLoginData(){
