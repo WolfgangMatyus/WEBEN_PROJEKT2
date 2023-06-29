@@ -1,10 +1,10 @@
 package com.backend.controller;
 
-import com.backend.entity.Invoice;
+import com.backend.entity.Cart;
 import com.backend.security.user.User;
 import com.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,16 +32,18 @@ public class CustomerController {
         }
     }
 
-    @GetMapping("/{userId}/invoices")
-    public List<Invoice> getUserInvoices(@PathVariable Integer userId) {
-        return userService.getInvoicesByUserId(userId);
+    @GetMapping("/cart")
+    public List<Cart> getUserCart(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        User user = userService.getActiveUser();
+        List<Cart> cartlist = userService.getCartByUser(user);
+        return cartlist;
     }
 
-    @PostMapping("/{userId}/invoice")
-    public ResponseEntity<Invoice> createInvoice(@PathVariable Integer userId) {
+    @PostMapping("/{userId}/cart")
+    public ResponseEntity<Cart> createCart(@PathVariable Integer userId) {
         User user = userService.getUserById(userId);
-        Invoice createdInvoice = userService.createInvoice(user);
-        return ResponseEntity.ok(createdInvoice);
+        Cart createdCart = userService.createCart(user);
+        return ResponseEntity.ok(createdCart);
     }
 
 }

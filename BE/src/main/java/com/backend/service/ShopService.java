@@ -1,7 +1,7 @@
 package com.backend.service;
 
 import com.backend.entity.Product;
-import com.backend.entity.ProductRepository;
+import com.backend.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

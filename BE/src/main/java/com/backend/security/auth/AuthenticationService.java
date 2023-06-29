@@ -119,7 +119,7 @@ public class AuthenticationService {
 //  }
 
 
-  public AuthenticationResponse authenticate(AuthenticationRequest request, HttpServletResponse response) {
+  public AuthenticationResponse authenticate(AuthenticationRequest request) {
     // Führen Sie die Authentifizierungslogik durch und überprüfen Sie die Anmeldeinformationen
 
     // Wenn die Authentifizierung erfolgreich ist, generieren Sie den JWT-Token

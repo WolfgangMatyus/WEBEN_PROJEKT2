@@ -45,7 +45,7 @@ function getCart() {
         $.ajax({
             method: "GET",
             dataType: "json",
-            url: "../../Data/cart.json",
+            url: "/api/v1/shop/products",
             success: function (json) {
                 //console.log(json)
                 cartData = json;

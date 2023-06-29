@@ -1,32 +1,51 @@
 package com.backend.service;
 
-import com.backend.entity.Invoice;
-import com.backend.entity.InvoiceRepository;
+import com.backend.entity.Cart;
+import com.backend.repository.CartRepository;
+import com.backend.security.token.TokenRepository;
 import com.backend.security.user.User;
 import com.backend.security.user.UserRepository;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.attribute.UserPrincipal;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final InvoiceRepository invoiceRepository;
+    private final TokenRepository tokenRepository;
+    private final CartRepository cartRepository;
 
     public User getUserById(Integer userId) {
         return userRepository.findById(userId).orElse(null);
     }
-    public List<Invoice> getInvoicesByUserId(Integer userId) {
-        return invoiceRepository.findByUserId(userId);
+
+    public User getActiveUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof User) {
+                return (User) principal;
+            }
+        }
+        return null;
     }
 
-    public Invoice createInvoice(User user) {
-
-        Invoice invoice = new Invoice();
-        invoice.setUser(user);
-        return invoiceRepository.save(invoice);
+    public List<Cart> getCartByUser(User user) {
+        return cartRepository.findByUserId(user.getId());
     }
+
+    public Cart createCart(User user) {
+
+        Cart cart = new Cart();
+        cart.setUser(user);
+        return cartRepository.save(cart);
+    }
+
 }
