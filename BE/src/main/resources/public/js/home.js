@@ -146,10 +146,10 @@ function loadHomeCart() {
                     + '</div>'
     let homeCartHeader = '<div class="header" id="homeCartHeader">'
                         +'<div class="row">'
-                        +'<div class="col center"><h5>Product Name</5></div>'
-                        +'<div class="col center"><h5>Quantity</5></div>'
-                        +'<div class="col center"><h5>Price Single</5></div>'
-                        +'<div class="col center"><h5>Total</5></div>'
+                        +'<div class="col center"><h5>Product Name</h5></div>'
+                        +'<div class="col center"><h5>Quantity</h5></div>'
+                        +'<div class="col center"><h5>Price Single</h5></div>'
+                        +'<div class="col center"><h5>Total</h5></div>'
                         +'</div>'
                         +'</div>'
 
@@ -248,7 +248,7 @@ function getCartFromBackend(response){
     // END WORKAROUND LOAD TEST cartproducts.json
 }
     
-function loadCartOnFrontend(data){
+function setCartProducts(data){
 
     $(".Placeholder").remove();
 
