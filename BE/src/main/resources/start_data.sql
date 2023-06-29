@@ -10,7 +10,6 @@ INSERT INTO product (id, name, price, description, category, img_path, rating) V
 (5, 'Dame', 19.99, 'Beschreibung 5', 'Kategorie 1', '5.jpg', 4),
 (6, 'Schach', 21.99, 'Beschreibung 6', 'Kategorie 1', '6.jpg', 1);
 
-
 INSERT INTO invoice_entry (id, invoice_id, product_id, quantity) VALUES (1, 1, 1, 2), (2, 1, 2, 1), (3, 1, 3, 3);
 
 INSERT INTO invoice_entry (id, invoice_id, product_id, quantity) VALUES (4, 2, 4, 1), (5, 2, 5, 2), (6, 2, 6, 1);

@@ -2,11 +2,32 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
 <head>
   <title>Profile</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
 <div layout:decorator="layout">
   <section layout:fragment="content">
     <h1>Profile</h1>
+    <h1>Willkommen in deinem persönlichen Profil!</h1>
+
+    <!--User kann eigene Daten unter „Mein Konto“ einsehen
+            Stammdaten bearbeiten
+            Zahlungsmöglichkeiten hinzufügen
+            Sensible Daten werden nicht angezeigt
+            Passwort wird für Änderungen verlangt
+    Bestellungen und -details einsehbar
+        Rechnung drucken
+    -->
+    <container class="container" id="customerData">
+
+    </container>
+    <script type="text/javascript" src="js/global.js"></script>
+    <script type="text/javascript" src="js/profile.js"></script>
   </section>
 </div>
 </body>
