@@ -23,7 +23,7 @@ function getProducts() {
     return new Promise(function (resolve, reject) {
         $.ajax({
             method: "GET",
-            dataType: "json",
+            contentType: "application/json",
             url: "/api/v1/shop/products",
             success: function (json) {
                 //console.log(json);

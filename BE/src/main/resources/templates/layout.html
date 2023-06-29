@@ -7,24 +7,16 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="js/authentication.js"></script>
     <script type="text/javascript" src="js/global.js"></script>
 </head>
 <body id="globalbody">
-<header>
-    <div th:replace="header.html"></div>
-</header>
-
-<main>
-    <!-- Hier wird der Inhalt der jeweiligen Seite eingefügt -->
-    <section layout:fragment="content"></section>
-</main>
-
-<footer>
-    <div th:replace="footer.html"></div>
-</footer>
-
-
-<script type="text/javascript" src="js/authentication.js"></script>
+    <header><div th:replace="header.html"></div></header>
+    <main>
+        <!-- Hier wird der Inhalt der jeweiligen Seite eingefügt -->
+        <section layout:fragment="content"></section>
+    </main>
+    <footer><div th:replace="footer.html"></div></footer>
 </body>
 </html>
 
