@@ -1,7 +1,9 @@
 package com.backend.service;
 
 import com.backend.entity.Cart;
+import com.backend.entity.Voucher;
 import com.backend.repository.CartRepository;
+import com.backend.repository.VoucherRepository;
 import com.backend.security.token.TokenRepository;
 import com.backend.security.user.User;
 import com.backend.security.user.UserRepository;
@@ -24,7 +26,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
     private final CartRepository cartRepository;
-
     public User getUserById(Integer userId) {
         return userRepository.findById(userId).orElse(null);
     }
@@ -88,4 +89,6 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+
 }

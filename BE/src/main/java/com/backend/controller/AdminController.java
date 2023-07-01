@@ -1,7 +1,9 @@
 package com.backend.controller;
 
 import com.backend.entity.Product;
+import com.backend.entity.Voucher;
 import com.backend.security.user.User;
+import com.backend.service.ShopService;
 import com.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,7 +18,7 @@ import java.util.List;
 public class AdminController {
 
     private final UserService userService;
-
+    private final ShopService shopService;
 
     @GetMapping("/get")
     public ResponseEntity<String> getAdmin() {
@@ -76,4 +78,37 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    @PostMapping("/voucher")
+    public ResponseEntity<String> createVoucher(@RequestBody Voucher voucher){
+        shopService.createVoucher(voucher);
+        return ResponseEntity.ok("Voucher successfully created!");
+    }
+
+    @GetMapping("/voucher")
+    public List<Voucher> getAllVoucher(){return shopService.getAllVoucher();}
+
+    @PutMapping("/detractVoucher/{voucherId}")
+    public ResponseEntity<String> detractVoucher(@PathVariable("voucherId") Integer voucherId, @RequestBody Voucher voucher){
+        shopService.detractVoucher(voucherId, voucher);
+        return ResponseEntity.ok("Amount " + voucher.getAmount() + " from Voucher successfully substracted!");
+    }
+
+    @PutMapping("/updateVoucher/{voucherId}")
+    public ResponseEntity<String> updateVoucher(@PathVariable("voucherId") Integer voucherId, @RequestBody Voucher voucher){
+        shopService.updateVoucher(voucherId, voucher);
+        return ResponseEntity.ok("Amount " + voucher.getAmount() + " from Voucher successfully substracted!");
+    }
+
+    @DeleteMapping("/voucher/{voucherID}")
+    public ResponseEntity<String> deleteVoucher(@PathVariable("voucherID") Integer voucherId){
+        Voucher voucherToDelete = shopService.getVoucherById(voucherId);
+        if (voucherToDelete != null) {
+            shopService.deleteVoucher(voucherId);
+            return ResponseEntity.ok("Voucher with id: " + voucherId + " successfully deleted!");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
 }
