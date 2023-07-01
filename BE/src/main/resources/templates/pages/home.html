@@ -12,29 +12,23 @@
 <body>
 <div layout:decorator="layout">
     <section layout:fragment="content">
-        <h1>Welcome to the Home Page</h1>
+        <h1>Willkommen bei beste.brettspiele.at</h1>
         <!--searchfiltercontainer
         Produkte können gelistet und je Kategorie angezeigt werden:
             Name, Bild, Preis und Bewertung -->
+        <div id="popup" class="popup"></div> <!--style="display: none;"-->
+        <div id="overlay" class="overlay"></div>
         <!--kategoriekontainer sort -->
         <container class="container" id="categorySearchFilter">
 
-        </container>
-        <!--productlistcontainer
+            </container>
+        <!-- productlistcontainer
         Cards wie bei Memory für jedes Product mit
         Json {products:[{id:#, name:#, preis:#, img_path:#, kategorie:{Brettspiel, Kartenspiel, Zubehör}, bewertung:{1-5}}]}-->
         <container class="container" id="">
-            <div class="row">
-                <div class="list-container col-8" id="productListContainer">
+                <div class="list-container" id="productListContainer">
 
                 </div>
-                <!--warenkorbcontainer **RECHTS
-                Produkte können ohne Page-Reload „in den Warenkorb“ gelegt werden
-                Anzahl der Produkte wird neben Warenkorbsymbol angezeigt = im Layout zur Navbar-->
-                <div class="list-container col" id="homeCartContainer">
-
-                </div>
-            </div>
         </container>
         <script type="text/javascript" src="js/home.js"></script>
     </section>

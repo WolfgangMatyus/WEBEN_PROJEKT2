@@ -1,54 +1,66 @@
 //-- Variables --//
-var products = [];
+var productsData = [];
 var userData = [];
 var cartData = [];
 
-function getProducts(){
-    $.ajax({
-        method: "GET",
-        dataType: "json",
-        url: "/api/v1/shop/products",
-        success: function(json){
-            console.log(json);
-            products = json;
-            console.log("products: " + products);
-        },
-        error: function(){
-            console.error("An ERROR occured!")
-        }
-    })
+function getProducts() {
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            method: "GET",
+            contentType: "application/json",
+            url: "/api/v1/shop/products",
+            success: function (json) {
+                console.log(json);
+                productsData = json;
+                console.log("productsData: " + productsData); // + JSON.stringify(productsData)
+                resolve(productsData);
+            },
+            error: function () {
+                console.error("An ERROR occured!");
+                reject(Error);
+            },
+        });
+    });
 };
 
-function getUser(){
-    $.ajax({
-        method: "GET",
-        dataType: "json",
-        url: "/api/v1/authorisation/users",
-        success: function(json){
-            console.log(json);
-            userData = json;
-            console.log("userData: " + userData);
-        },
-        error: function(){
-            console.error("An ERROR occured!")
-        }
-    })
-};
+function getUser() {
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            method: "GET",
+            dataType: "json",
+            url: "/api/v1/authorisation/users",
+            success: function (json) {
+                console.log(json);
+                userData = json;
+                console.log("userData: " + userData);
+                resolve(userData);
+            },
+            error: function () {
+                console.error("An ERROR occured!")
+                reject(Error);
+            }
+        });
+    });
+}
 
-function getCart(){
-    $.ajax({
-        method: "GET",
-        dataType: "json",
-        url: "/api/v1/user/cart",
-        success: function(json){
-            console.log(json);
-            cartData = json;
-            console.log("cartData: " + cartData);
-        },
-        error: function(){
-            console.error("An ERROR occured!")
-        }
-    })
+function getCart() {
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            method: "GET",
+            dataType: "json",
+            url: "/api/v1/user/cart",
+            success: function (json) {
+                //console.log(json)
+                cartData = json;
+                console.log(cartData);
+                resolve(cartData);
+            },
+            error: function () {
+                console.error("An ERROR occured!");
+                reject(Error);
+            },
+        });
+    });
 };
 
 

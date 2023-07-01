@@ -5,5 +5,35 @@
 .container {
     display: grid;
     box-sizing: border-box;
-    border-style: solid;
+    /*border-style: solid;*/
+}
+
+.popup {
+    position: fixed;
+    display: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    z-index: 9999;
+    backdrop-filter: blur(5px);
+}
+
+.overlay {
+    position: fixed;
+    display: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Weichzeichnen des Hintergrunds */
+    z-index: 9998;
+}
+
+#shoppingCart{
+    position: fixed;
 }
