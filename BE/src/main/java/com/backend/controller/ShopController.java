@@ -4,9 +4,7 @@ import com.backend.entity.Product;
 import com.backend.service.ShopService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,5 +24,11 @@ public class ShopController {
     @GetMapping("/products")
     public List<Product> getAllProducts() {
         return shopService.getAllProducts();
+    }
+
+    @PostMapping("/products")
+    public ResponseEntity<String> createProduct(@RequestBody Product product){
+        shopService.createProduct(product);
+        return ResponseEntity.ok("new Product successfully created");
     }
 }
