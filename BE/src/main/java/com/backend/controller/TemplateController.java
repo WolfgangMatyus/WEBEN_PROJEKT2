@@ -64,6 +64,11 @@ public class TemplateController {
         return "user/profile";
     }
 
+    @GetMapping("/admin")
+    public String admin() {
+        return "admin/admin";
+    }
+
     @GetMapping("/customermanager")
     public String customermanager() {
         return "admin/customermanager";
@@ -76,6 +81,7 @@ public class TemplateController {
 
     @GetMapping("/vouchermanager")
     public String vouchermanager() {
+
         // Benutzername aus Principal-Objekt abrufen
 //        String username = principal.getName();
 

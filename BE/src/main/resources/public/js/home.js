@@ -53,21 +53,30 @@ function loadProducts(productsData) {
         "</div>";
 
     $("#productListContainer").empty().append(productCardsList);
+    var filteredProducts = productsData;
 
+    if (categoryFilterValue === "besteBewertung") {
+        filteredProducts = filteredProducts.sort(function (a, b) {return b.rating - a.rating;});
+    }
 
-
-     var filteredProducts = productsData.filter(function (product) {
+     filteredProducts = filteredProducts.filter(function (product) {
         return (
             (categoryFilterValue === "" || product.category.toLowerCase() === categoryFilterValue.toLowerCase()) &&
             (priceFilterValue === "" || checkPriceFilter(priceFilterValue, product.price)) &&
-            (searchInputValue === "" || product.name.toLowerCase().includes(searchInputValue))
-        );
-    });
-
-    if (categoryFilterValue === "besteBewertung") {
-        filteredProducts = productsData.sort(function (a, b) {
-            return b.rating - a.rating;
+            (searchInputValue === "" || product.name.toLowerCase().includes(searchInputValue)))
         });
+
+    function checkPriceFilter(priceFilter, productPrice) {
+        switch (priceFilter) {
+            case "under25":
+                return productPrice < 25;
+            case "25to50":
+                return productPrice >= 25 && productPrice <= 50;
+            case "over50":
+                return productPrice > 50;
+            default:
+                return true;
+        }
     }
 
     $.each(filteredProducts, function (i, product) {
@@ -116,19 +125,6 @@ function loadProducts(productsData) {
             "</div>"
         );
     });
-}
-
-function checkPriceFilter(priceFilter, productPrice) {
-    switch (priceFilter) {
-        case "under25":
-            return productPrice < 25;
-        case "25to50":
-            return productPrice >= 25 && productPrice <= 50;
-        case "over50":
-            return productPrice > 50;
-        default:
-            return true;
-    }
 }
 
 // Call the loadProducts function when the filter values change or search input is entered

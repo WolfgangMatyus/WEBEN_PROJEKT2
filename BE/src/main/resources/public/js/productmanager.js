@@ -1,5 +1,3 @@
-//-- Imports --//
-import {getProducts, getUser, getCart} from './global.js';
 //-- Variables --//
 //loadProductList()
 //-- Code --//

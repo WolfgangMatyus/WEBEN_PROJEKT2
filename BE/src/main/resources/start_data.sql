@@ -1,4 +1,8 @@
-REPLACE INTO _user (id, email, firstname, lastname, password, role, active) VALUES (1, 't@test.at', 'R2', 'Grod', '$2a$10$qbykEXhV3yQzZ7m2r4aFdO6uLojN.i06.dl.QMPxnxrxrAEFucdWe', 'ROLE_USER', '1');
+REPLACE INTO _user (id, active, email, firstname, lastname, password, role) VALUES
+(1, True, 't@test.at', 'R2', 'Grod', '$2a$10$qbykEXhV3yQzZ7m2r4aFdO6uLojN.i06.dl.QMPxnxrxrAEFucdWe', 'ROLE_USER'),
+(2, True, 'rob@test.at', 'Rob', 'Spitz', '$2a$10$TDHubmli0uAh/ObBxygOQ.DfRo2Ae36ohWb9mX.P0Gfjbz9QOHNwq', 'ROLE_USER'),
+(3, True, 'wi21b055@technikum-wien.at', 'Wolf', 'Mat', '$2a$10$38rr3ldh/TPWLrXBQP/dx.OPflrF3oZnGd7IO/bJy3hy/W0BWdBJi', 'ROLE_USER');
+
 
 REPLACE INTO cart (id, total, user_id) VALUES (1, 0, 1), (2, 0, 1), (3, 0, 1);
 
@@ -16,4 +20,3 @@ REPLACE INTO cart_entry (id, cart_id, product_id, quantity) VALUES (1, 1, 1, 2),
 REPLACE INTO cart_entry (id, cart_id, product_id, quantity) VALUES (4, 2, 4, 1), (5, 2, 5, 2), (6, 2, 6, 1);
 
 REPLACE INTO cart_entry (id, cart_id, product_id, quantity) VALUES (7, 3, 7, 3), (8, 3, 8, 1), (9, 3, 9, 2);
-

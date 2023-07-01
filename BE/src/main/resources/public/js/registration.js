@@ -41,6 +41,27 @@ function sendRegistrationData(){
     });
 }
 
+// -- PW Confirmation -- //
+$(document).ready(function() {
+    // Get references to the password and confirm password input fields
+    var passwordInput = $('#password');
+    var confirmPasswordInput = $('#password2');
+    var passwordError = $('#passwordError');
+
+    // Listen for input changes in the confirm password field
+    confirmPasswordInput.on('input', function() {
+        // Get the values of both password fields
+        var password = passwordInput.val();
+        var confirmPassword = confirmPasswordInput.val();
+
+        // Compare the passwords and show/hide the error message accordingly
+        if (password !== confirmPassword) {
+            passwordError.show();
+        } else {
+            passwordError.hide();
+        }
+    });
+});
 
 //
 // //VALIDATION: https://jqueryvalidation.org/
