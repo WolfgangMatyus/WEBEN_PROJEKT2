@@ -54,4 +54,26 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    @PutMapping("activateUser/{userID}")
+    public ResponseEntity<String> activateUser(@PathVariable("userID") Integer userId){
+        User UserToActivate = userService.getUserById(userId);
+        if (UserToActivate != null) {
+            userService.activateUser(userId);
+            return ResponseEntity.ok("User with id: " + userId + " successfully activated!");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @PutMapping("deactivateUser/{userID}")
+    public ResponseEntity<String> deactivateUser(@PathVariable("userID") Integer userId){
+        User UserToDeactivate = userService.getUserById(userId);
+        if (UserToDeactivate != null) {
+            userService.deactivateUser(userId);
+            return ResponseEntity.ok("User with id: " + userId + " successfully deactivated!");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 }

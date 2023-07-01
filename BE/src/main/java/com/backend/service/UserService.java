@@ -7,6 +7,8 @@ import com.backend.security.user.User;
 import com.backend.security.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -63,5 +65,27 @@ public class UserService {
 
     public void deleteUser(Integer userId){
         userRepository.deleteById(userId);
+    }
+
+    public ResponseEntity<String> activateUser(Integer userId) {
+        User activateUser = userRepository.getReferenceById(userId);
+        if (activateUser != null) {
+            activateUser.setActive(true);
+            userRepository.save(activateUser);
+            return ResponseEntity.ok("User with id: " + userId + " activated!");
+
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+    public ResponseEntity<String> deactivateUser(Integer userId) {
+        User deactivateUser = userRepository.getReferenceById(userId);
+        if (deactivateUser != null) {
+            deactivateUser.setActive(false);
+            userRepository.save(deactivateUser);
+            return ResponseEntity.ok("User with id: " + userId + " deactivated!");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }
