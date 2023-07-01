@@ -32,6 +32,27 @@ public class CustomerController {
         }
     }
 
+    @PostMapping ("/register")
+    public ResponseEntity<User> updateUserByID(@RequestBody User user){
+        userService.createUser(user);
+        return ResponseEntity.ok(user);
+    }
+
+
+    @PutMapping("/{userID}")
+    public ResponseEntity<User> updateUserByID(@PathVariable("userID") Integer userId, @RequestBody User user){
+        User existingUser = userService.getUserById(userId);
+        if (existingUser != null) {
+            existingUser.setEmail(user.getEmail());
+            existingUser.setFirstname(user.getFirstname());
+            existingUser.setLastname(user.getLastname());
+            userService.saveUser(existingUser);
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
     @GetMapping("/cart")
     public List<Cart> getUserCart(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
         User user = userService.getActiveUser();

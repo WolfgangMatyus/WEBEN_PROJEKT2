@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.attribute.UserPrincipal;
@@ -48,4 +49,19 @@ public class UserService {
         return cartRepository.save(cart);
     }
 
+    public void saveUser(User user) {
+        userRepository.save(user);
+    }
+
+    public void createUser(User user) {
+        userRepository.save(user);
+    }
+
+    public List<User> getAllUser() {
+        return userRepository.findAll();
+    }
+
+    public void deleteUser(Integer userId){
+        userRepository.deleteById(userId);
+    }
 }

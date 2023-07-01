@@ -1,4 +1,4 @@
-REPLACE INTO _user (id, email, firstname, lastname, password, role) VALUES (1, 't@test.at', 'R2', 'Grod', '$2a$10$qbykEXhV3yQzZ7m2r4aFdO6uLojN.i06.dl.QMPxnxrxrAEFucdWe', 'ROLE_USER');
+REPLACE INTO _user (id, email, firstname, lastname, password, role, active) VALUES (1, 't@test.at', 'R2', 'Grod', '$2a$10$qbykEXhV3yQzZ7m2r4aFdO6uLojN.i06.dl.QMPxnxrxrAEFucdWe', 'ROLE_USER', '1');
 
 REPLACE INTO cart (id, total, user_id) VALUES (1, 0, 1), (2, 0, 1), (3, 0, 1);
 

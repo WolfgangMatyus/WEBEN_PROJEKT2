@@ -29,6 +29,7 @@ public class User implements UserDetails {
   private String email;
   @JsonIgnore
   private String password;
+  private Boolean active;
 
   @Enumerated(EnumType.STRING)
   private Role role;
