@@ -1,12 +1,10 @@
-
 //-- Variables --//
-var userData = [];
-var userCart = [];
-getUserData();
-//getCart();
+getUserById(1);
+loadProfile();
+loadUserData();
 
 function loadCart(){
-    getCart();
+    //getCart();
 }
 
 //-- EventHandler --//
@@ -16,31 +14,10 @@ $(document).on(
     'click', '#invoices', setUserInvoicesActive,
 );
 
-$(document).ready(function(){
-//-- Initialize  --//
-    loadProfile();
-    loadUserData();
-});
-
-function getUserData(){
-    $.ajax({
-        method: "GET",
-        dataType: "json",
-        url: "../../Data/user.json",
-        success: function(json){
-            //console.log(json);
-            userData = json;
-            console.log(userData);
-        },
-        error: function(){
-            console.error("An ERROR occured!")
-        }
-    })
-};
 
 //-- Navigation User Profile --//
 function loadProfile(){
-
+    console.log("loadProfile");
     let profileCardNavbar = '<div class="card" id="cardStammDaten">'
         +'<div class="card-header" id="stammDatenHeader">'
         +'<ul class="nav nav-tabs card-header-tabs">'
@@ -63,6 +40,7 @@ function loadProfile(){
 
 //-- Navigation User Profile Functionality --//
 function setUserDataActive(){
+    console.log("setUserDataActive");
     $(".profile-card-body").hide()
     $(".nav-link").attr("class", "nav-link")
     $("#userData-link").attr("class", "nav-link active")
@@ -70,6 +48,7 @@ function setUserDataActive(){
 }
 
 function setUserCartActive(){
+    console.log("setUserCartActive");
     $(".profile-card-body").hide()
     loadCart();
     $(".nav-link").attr("class", "nav-link")
@@ -78,6 +57,7 @@ function setUserCartActive(){
 }
 
 function setUserInvoicesActive(){
+    console.log("setUserInvoicesActive");
     $(".profile-card-body").hide()
     loadUserIvoices();
     $(".nav-link").attr("class", "nav-link")
@@ -92,15 +72,15 @@ function loadUserData(){
         +'<div class="userData" id="userData">'
         +'<div class="row">'
         +'<div class="userDataLable col" for="changeEmail" id="emailLable">Email: </div>'
-        +'<div class="userDataValue col" id="emailValue">'+userData[2].email+'</div>'
+        +'<div class="userDataValue col" id="emailValue">'+userData.email+'</div>'
         +'</div>'
         +'<div class="row">'
         +'<div class="userDataLable col" for="changeFirstname" id="firstnameLable">Vorname: </div>'
-        +'<div class="userDataValue col" id="firstnameValue">'+userData[2].firstname+'</div>'
+        +'<div class="userDataValue col" id="firstnameValue">'+userData.firstname+'</div>'
         +'</div>'
         +'<div class="row">'
         +'<div class="userDataLable col" for="changeLastname" id="lastnameLable">Nachname: </div>'
-        +'<div class="userDataValue col" id="lastnameValue">'+userData[2].lastname+'</div>'
+        +'<div class="userDataValue col" id="lastnameValue">'+userData.lastname+'</div>'
         +'</div>'
         +'<div class="btn">'
         +'<button class="btn btn-primary" id="changeDataBtn" onclick="changeUserData()">Stammdaten anpassen</button>'
