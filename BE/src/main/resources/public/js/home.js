@@ -106,14 +106,14 @@ function loadProducts(productsData) {
             '<img src="../img/' +
             product.img_path +
             '"' +
-            ' class="img-fluid" alt="Product Picture">' +
+            ' class="img-fluid" alt="Product Picture" draggable="true" ondragstart="drag(event)"  data-product="'+ product.id + '">' +
             "</div>";
 
         $("#productList").append(
             '<div class="col">' +
             '<div class="card h-100" id="card' +
             i +
-            '" draggable="true" ondragstart="drag(event)">' +
+            '" draggable="true" ondragstart="drag(event)"  data-product="'+ product.id + '">' +
             '<div class="card-header">' +
             '<h5 class="productName">' +
             product.name +

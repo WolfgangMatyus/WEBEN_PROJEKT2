@@ -12,9 +12,9 @@ function getProducts() {
             contentType: "application/json",
             url: "/api/v1/shop/products",
             success: function (json) {
-                console.log(json);
-                productsData = json;
-                console.log("productsData: " + productsData); // + JSON.stringify(productsData)
+                for (let i = 0; i < json.length; i++) {
+                    productsData[json[i].id] = json[i];
+                }
                 resolve(productsData);
             },
             error: function () {
