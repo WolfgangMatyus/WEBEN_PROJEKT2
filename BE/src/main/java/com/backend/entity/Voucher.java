@@ -18,22 +18,19 @@ public class Voucher {
 
     @Id
     @GeneratedValue
-    private Integer voucherNumber;
+    private Integer id;
 
     private float amount;
 
     private LocalDate validUntil;
 
-    //@ManyToOne
-    //@JoinColumn(name = "user_id")
-    private Integer userId;
 
     public Integer getVoucherNumber() {
-        return voucherNumber;
+        return id;
     }
 
     public void setVoucherNumber(Integer voucherNumber) {
-        this.voucherNumber = voucherNumber;
+        this.id = voucherNumber;
     }
 
     public float getAmount() {
@@ -52,12 +49,5 @@ public class Voucher {
         this.validUntil = validUntil;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUser(Integer userId) {
-        this.userId = userId;
-    }
 
 }

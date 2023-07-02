@@ -43,4 +43,11 @@ public class ShopController {
         shopService.deleteProduct(id);
         return ResponseEntity.ok("Product with id: " + id + " successfully deleted!");
     }
+
+    // vouchercode
+    @GetMapping("/voucher/{voucher_id}/valid")
+    public ResponseEntity<Float> checkVoucher(@PathVariable("voucher_id") Integer voucher_id){
+        return ResponseEntity.ok(shopService.checkVoucher(voucher_id));
+    }
+
 }

@@ -1,10 +1,13 @@
 //--- VARIABLES ---//
 var cartSum = 0.00;
+var voucherAmount = 0.00;
+var taxSum = 0.00;
 var totalAmount = 0.00;
 
 $(document).ready(function(){
 
     createCartContent();
+    showCartFromStorage();
     //getCartFromBackendd();
 });
 
@@ -50,6 +53,7 @@ function addCartProduct(product_id) {
 }
 
 function showCartFromStorage() {
+    $("#cartList").empty();
     let cart = localStorage.getItem('cart');
     cart = JSON.parse(cart);
     $.each(cart, function (i, cart_entry){
@@ -62,8 +66,19 @@ function showCartFromStorage() {
             + '</li>';
 
         $("#cartList").append(cartListItem);
+        $("#orderPopup").append(cartListItem);
 
+        cartSum = cartSum + (cart_entry.product.price * cart_entry.quantity)
+        document.getElementById("cartSum").innerHTML = cartSum;
     });
+
+    totalAmount = cartSum - voucherAmount;
+    taxSum = (totalAmount /100*20).toFixed(2)
+
+    document.getElementById("cartSum").innerHTML = cartSum + " €";
+    document.getElementById("orderSum").innerHTML = totalAmount + " €";
+    document.getElementById("tax-amount").innerHTML = taxSum + " €";
+
     $(".Number").css({
         "text-align": "right"
     });
@@ -175,50 +190,10 @@ function createCartContent() {
     $(".Number").css({ "text-align": "right" });
 };
 
-function loadCartProducts(to) {
-    console.log("loadCartProducts " + to);
-    $(".Placeholder").hide();
-
-    $.each(cartData, function (i, cartData) {
-        //console.log(cartData);
-        $.each(cartData.cartProducts, function (i, cartProducts) {
-            //console.log(cartProducts);
-            let cartBody =
-                '<li class="listItem" id="' +
-                cartProducts.id +
-                '">' +
-                '<span class="listItemValue" id="productName">' +
-                cartProducts.name +
-                "</span>" +
-                '<span class="listItemValue Number" id="productQuantity">' +
-                cartProducts.quantity +
-                "</span>" +
-                '<span class="listItemValue Number" id="productPriceSingle"> ' +
-                cartProducts.price_single +
-                "</span>" +
-                '<span class="listItemValue Number" id="productPriceTotal">' +
-                cartProducts.price_total +
-                "</span>" +
-                "</li>";
-            var price = parseFloat(cartProducts.price_total);
-            cartSum += price;
-            $("#" + to).append(cartBody);
-        });
-    });
-    var totalAmount = cartSum;
-    cartSum = 0.00;
-    document.getElementById("cartSum").innerHTML = totalAmount.toFixed(2) + " €";
-    document.getElementById("orderSum").innerHTML = (parseFloat(document.getElementById("cartSum").innerHTML)).toFixed(2) + " €";
-    document.getElementById("tax-amount").innerHTML = (parseFloat(document.getElementById("orderSum").innerHTML)/100*20).toFixed(2) + " €";
-    $(".Number").css({ "text-align": "right" });
-}
 
 function openPopup() {
-    console.log("openPopup");
     document.getElementById("popup").style.display = "block";
     document.getElementById("overlay").style.display = "block";
-    let to = "orderPopup";
-    loadCartProducts(to);
 }
 
 

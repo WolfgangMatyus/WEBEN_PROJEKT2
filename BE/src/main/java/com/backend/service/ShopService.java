@@ -31,6 +31,10 @@ public class ShopService {
         return productRepository.save(product);
     }
 
+    public float checkVoucher(Integer voucher_id){
+        return voucherRepository.getReferenceById(voucher_id).getAmount();
+    }
+
     public ResponseEntity<Product> updateProduct(Integer id, Product product) {
         Product productToUpdate = productRepository.getReferenceById(id);
         if (productToUpdate != null) {
