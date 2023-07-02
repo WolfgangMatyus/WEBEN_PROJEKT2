@@ -103,7 +103,9 @@ function loadProductList(productsData){
         console.log("addListItem: " + productsData);
         let listItem = '<li>' +
             '<div class="row">' +
-            '<div class="col"><img src="../img/' + product.img_path + '" width="100" height="100" />' +
+            '<div class="col">'+
+            '<img src="../img/' + product.img_path + '" width="100" height="100"/>' +
+            '</div>' +
             '<div class="col">'+product.name + '</div>' +
             '<div class="col">'+product.description + '</div>' +
             '<div class="col">'+product.price.toFixed(2) + '</div>' +
@@ -118,8 +120,6 @@ function loadProductList(productsData){
 
         $("#amdinProducts").append(listItem);
     });
-
-
 }
 
  // Eventlistener für den "Löschen" Button
