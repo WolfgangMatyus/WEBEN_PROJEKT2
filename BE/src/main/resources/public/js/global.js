@@ -3,8 +3,25 @@ var productsData = [];
 var userData = [];
 var cartData = [];
 
-
 // -- Products --//
+function getAdminProducts() {
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            method: "GET",
+            contentType: "application/json",
+            url: "/api/v1/shop/products",
+            success: function (json) {
+                productsData = json;
+                resolve(productsData);
+            },
+            error: function () {
+                console.error("An ERROR occured!");
+                reject(Error);
+            },
+        });
+    });
+};
+
 function getProducts() {
     return new Promise(function (resolve, reject) {
         $.ajax({
