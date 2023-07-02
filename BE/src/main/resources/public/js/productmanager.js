@@ -4,9 +4,10 @@
 waitForJobs();
 async function waitForJobs() {
     try {
-        await getProducts()
+        await getAdminProducts()
         console.log("Produkte abholen fertig");
         loadProductWorkbench()
+        console.log(JSON.stringify(productsData));
         loadProductList(productsData)
     } catch (error) {
         console.log("An error occured: ", error);
@@ -23,6 +24,7 @@ function loadProductWorkbench(){
         +  '<h2 class="card-title">Neues Produkt hinzufügen</h2>'
         +  '<input type="file" id="productImage" accept="image/*" />'
         +  '<input type="text" id="productName" placeholder="Name" />'
+        +  '<input type="textarea" id="productDescription" placeholder="Beschreibung" />'
         +  '<input type="number" id="productPrice" step="0.01" placeholder="Preis" />'
         +  '<select id="productCategory">'
         +  '<option value="Cardgame">Cardgame</option>'
@@ -48,7 +50,7 @@ function addProduct(){
         name: productName,
         description: productDescription,
         price: productPrice,
-        img_path: productImage,
+        img_path: "8.jpg",
         category: productCategory,
         rating: 0
     };
@@ -57,7 +59,10 @@ function addProduct(){
 //-- Produkt zum Array hinzufügen --//
     //products.push(product); // Produkt zum Array hinzufügen
     $.ajax({
-        url: "/api/v1/amdin/product",
+        url: "/api/v1/admin/product",
+        headers: {
+            "Authorization": "Bearer YOUR_AUTH_TOKEN"
+        },
         method: "POST",
         contentType: "application/json",
         data: JSON.stringify(newProduct),
@@ -77,8 +82,6 @@ function addProduct(){
             console.log(error);
         }
     });
-
-    //$("#products").append(listItem); // Listenelement zur Produktliste hinzufügen
 
 };
 
@@ -100,7 +103,7 @@ function loadProductList(productsData){
         $("#allProductsData").append(adminProductListHeader);
 
         $.each(productsData, function (i, product) {
-        console.log("addListItem: " + productsData);
+        console.log("addListItem: " + JSON.stringify(productsData));
         let listItem = '<li>' +
             '<div class="row">' +
             '<div class="col">'+

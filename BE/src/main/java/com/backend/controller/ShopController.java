@@ -26,21 +26,4 @@ public class ShopController {
         return shopService.getAllProducts();
     }
 
-    @PostMapping("/product")
-    public ResponseEntity<String> createProduct(@RequestBody Product product){
-        shopService.createProduct(product);
-        return ResponseEntity.ok("new Product successfully created!");
-    }
-
-    @PutMapping("/product/{id}")
-    public ResponseEntity<String> updateProduct(@PathVariable("id") Integer id, @RequestBody Product product){
-        shopService.updateProduct(id, product);
-        return ResponseEntity.ok("Product with id: " + id + " successfully updated!");
-    }
-
-    @DeleteMapping("/product/{id}")
-    public ResponseEntity<String> deleteProduct(@PathVariable("id") Integer id){
-        shopService.deleteProduct(id);
-        return ResponseEntity.ok("Product with id: " + id + " successfully deleted!");
-    }
 }
