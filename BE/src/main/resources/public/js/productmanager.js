@@ -1,11 +1,18 @@
-//-- Variables --//
-//loadProductList()
-//-- Code --//
-$(document).ready(function(){
-//-- Initialize Productmanager --//
-    loadProductWorkbench()
+//--- VARIABLES ---//
 
-});
+//--- CODE ---//
+waitForJobs();
+async function waitForJobs() {
+    try {
+        await getProducts()
+        console.log("Produkte abholen fertig");
+        loadProductWorkbench()
+        loadProductList(productsData)
+    } catch (error) {
+        console.log("An error occured: ", error);
+    }
+}
+
 //-- EventHandler --//
 $(document).on('click', '#addProduct', addProduct);
 
@@ -31,82 +38,94 @@ function loadProductWorkbench(){
 function addProduct(){
     console.log("addProductClicked");
     var productName = $("#productName").val();
+    var productDescription = $("productDesctiption").val();
     var productPrice = parseFloat($("#productPrice").val());
     var productCategory = $("#productCategory").val();
     var productImage = $("#productImage")[0].files[0];
-    //var imageURL = URL.createObjectURL(productImage); // Erzeugt eine temporäre URL für das Vorschaubild
-
 
 // Produktobjekt erstellen
-    var product = {
+    var newProduct = {
         name: productName,
+        description: productDescription,
         price: productPrice,
         img_path: productImage,
         category: productCategory,
-        ranking: 0
+        rating: 0
     };
-    console.log(product)
+
+    console.log(newProduct)
 //-- Produkt zum Array hinzufügen --//
     //products.push(product); // Produkt zum Array hinzufügen
-
-// url: "/api/v1/auth/cart", // Backend Approach
-//data: JSON.stringify(product),
-
     $.ajax({
+        url: "/api/v1/amdin/product",
         method: "POST",
-        url: "../../../TestServer/jsonWriter.php",
         contentType: "application/json",
-        data: JSON.stringify(product),
+        data: JSON.stringify(newProduct),
         success: function(response){
-            console.log(product);
-            console.log(response);
+            if (response.statusCode === 200) {
+                console.log("Produkt angelegt");
+                alert("Neues Produkt hinzugefügt!")
+            }
+            // Felder zurücksetzen
+            $("#productName").val("");
+            $("#productPrice").val("");
+            $("#productCategory").val("");
+            $("#productImage").val("");
         },
-        error: function(response){
-            console.log(response)
-            console.error("An ERROR occured!")
+        error: function(xhr, status, error) {
+            console.error("Fehler beim Erstellen des neuen Produkts:");
+            console.log(error);
         }
-    })
+    });
 
     //$("#products").append(listItem); // Listenelement zur Produktliste hinzufügen
 
-    // Felder zurücksetzen
-    //$("#productName").val("");
-    //$("#productPrice").val("");
-    //$("#productCategory").val("");
-    //$("#productImage").val("");
 };
-/*
-function loadProductList(){
 
-    getProducts();
+function loadProductList(productsData){
+    console.log("loadProductList");
 
-    let productList = '<div id="productList">'
-                    + '<h2>Produktliste</h2>'
-                    + '<ul id="products"></ul>'
-                    + '</div>'
+    let adminProductListHeader = '<div id="productList">'+
+                                 '<h2>Produktliste</h2>'+
+                                 '<div class="row">' +
+                                 '<div class="col">Image: </div>' +
+                                 '<div class="col">Name: </div>' +
+                                 '<div class="col">Beschreibung: </div>' +
+                                 '<div class="col">Preis: </div>' +
+                                 '<div class="col">Kategorie: </div>' +
+                                 '<div class="col">Bewertung: </div>' +
+                                 '</div>' +
+                                 '<ul id="amdinProducts"></ul>'
 
-    let listItem = "<li>" +
-                    "<img src='" + imageURL + "' width='100' height='100' />" +
-                    "<br />" +
-                    "Name: " + productName +
-                    "<br />" +
-                    "Preis: " + productPrice.toFixed(2) +
-                    "<br />" +
-                    "Kategorie: " + productCategory +
-                    "<br />" +
-                    "<button class='editProduct'>Bearbeiten</button>" +
-                    "<button class='deleteProduct'>Löschen</button>" +
-                    "</li>";
+        $("#allProductsData").append(adminProductListHeader);
 
-    $("#allProductsData").append(productList)
+        $.each(productsData, function (i, product) {
+        console.log("addListItem: " + productsData);
+        let listItem = '<li>' +
+            '<div class="row">' +
+            '<div class="col"><img src="../img/' + product.img_path + '" width="100" height="100" />' +
+            '<div class="col">'+product.name + '</div>' +
+            '<div class="col">'+product.description + '</div>' +
+            '<div class="col">'+product.price.toFixed(2) + '</div>' +
+            '<div class="col">'+product.category + '</div>' +
+            '<div class="col">'+product.rating + '</div>' +
+            '</div>' +
+            '</li>' +
+            '<div class="row">' +
+            '<div class="col"><button class="btn btn-primary" id="editProduct">Bearbeiten</button></div>' +
+            '<div class="col"><button class="btn btn-primary" id="deleteProduct">Löschen</button></div>' +
+            '</div>';
+
+        $("#amdinProducts").append(listItem);
+    });
+
 
 }
 
  // Eventlistener für den "Löschen" Button
- $("#products").on("click", ".deleteProduct", function() {
+ $("#amdinProducts").on("click", ".deleteProduct", function() {
     var listItem = $(this).parent();
     var index = $("#products li").index(listItem);
     products.splice(index, 1); // Produkt aus dem Array entfernen
     listItem.remove(); // Listenelement entfernen
  });
- */
