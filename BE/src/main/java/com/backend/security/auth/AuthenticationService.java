@@ -30,6 +30,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -43,6 +44,7 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
   private UserDetailsService userDetailsService;
 
+  @Transactional
   public AuthenticationResponse register(RegisterRequest request) {
     var user = User.builder()
         .firstname(request.getFirstname())
@@ -52,11 +54,12 @@ public class AuthenticationService {
         .role(Role.ROLE_USER)
         .build();
     var savedUser = repository.save(user);
-//    var jwtToken = jwtService.generateToken(user);
-//    saveUserToken(savedUser, jwtToken);
-    return AuthenticationResponse.builder()
-//        .token(jwtToken)
-        .build();
+    var jwtToken = jwtService.generateToken(user);
+    saveUserToken(savedUser, jwtToken);
+
+
+    AuthenticationResponse authenticationResponse = new AuthenticationResponse("Success", 200, "authenticated", jwtToken);
+    return authenticationResponse;
   }
 
 //  public void authenticate(HttpServletRequest request, HttpServletResponse response) throws IOException {

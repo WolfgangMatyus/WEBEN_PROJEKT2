@@ -41,16 +41,16 @@ function sendLoginData(){
                         'X-Requested-With': 'XMLHttpRequest'
                     }
                 })
-                    .then(response => {
-                        // Verarbeiten Sie die Antwort des Servers
-                        console.log(response);
-                        // Hier kommt die Logik hin, die nach dem Seitenwechsel ausgeführt werden soll
-                        window.location.replace('/');
-                    })
-                    .catch(error => {
-                        console.log(error);
-                        // Behandeln Sie etwaige Fehler
-                    });
+                .then(response => {
+                    // Verarbeiten Sie die Antwort des Servers
+                    console.log(response);
+                    // Hier kommt die Logik hin, die nach dem Seitenwechsel ausgeführt werden soll
+                    window.location.replace('/');
+                })
+                .catch(error => {
+                    console.log(error);
+                    // Behandeln Sie etwaige Fehler
+                });
             } else {
                 alert('Authentifizierung fehlgeschlagen');
             }
@@ -60,4 +60,6 @@ function sendLoginData(){
             // Hier kommt die Logik hin, die im Falle eines Fehlers ausgeführt werden soll
         }
     });
+
+
 }

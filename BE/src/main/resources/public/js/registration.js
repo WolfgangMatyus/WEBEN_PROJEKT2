@@ -18,8 +18,8 @@ function sendRegistrationData(){
     }
 
     var data = {
-        firstName: $('#firstName').val(),
-        lastName: $('#lastName').val(),
+        firstname: $('#firstname').val(),
+        lastname: $('#lastname').val(),
         email: $('#email').val(),
         password: $('#password').val()
     };
@@ -30,9 +30,33 @@ function sendRegistrationData(){
         contentType: "application/json",
         data: JSON.stringify(data),
         success: function(response){
-            console.log(response.token);
-            window.localStorage.setItem("token", response.token);
-            window.location.href = "/";
+            if (response.statusCode === 200) {
+
+                // Speichern des JWT-Tokens im Session Storage
+                sessionStorage.setItem('jwtToken', 'Bearer ' + response.token);
+
+                // Lesen des JWT-Tokens aus dem Session Storage
+                var jwtToken = sessionStorage.getItem('jwtToken');
+
+                fetch('/', {
+                    headers: {
+                        'Authorization': jwtToken,
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                    .then(response => {
+                        // Verarbeiten Sie die Antwort des Servers
+                        console.log(response);
+                        // Hier kommt die Logik hin, die nach dem Seitenwechsel ausgeführt werden soll
+                        window.location.replace('/');
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        // Behandeln Sie etwaige Fehler
+                    });
+            } else {
+                alert('Authentifizierung fehlgeschlagen');
+            }
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.error(textStatus, errorThrown);

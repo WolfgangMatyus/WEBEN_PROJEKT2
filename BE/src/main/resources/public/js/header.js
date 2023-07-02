@@ -10,6 +10,7 @@ function toggleCartClick(event) {
     document.getElementById("cartContainer").classList.toggle("show");
 }
 
+
 /*
 function getCartFromBackendd(){
 
