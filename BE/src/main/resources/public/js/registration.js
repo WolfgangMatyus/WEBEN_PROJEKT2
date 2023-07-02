@@ -35,25 +35,9 @@ function sendRegistrationData(){
                 // Speichern des JWT-Tokens im Session Storage
                 sessionStorage.setItem('jwtToken', 'Bearer ' + response.token);
 
-                // Lesen des JWT-Tokens aus dem Session Storage
-                var jwtToken = sessionStorage.getItem('jwtToken');
+                // Weiterleitung zur Startseite
+                window.location.href = "/";
 
-                fetch('/', {
-                    headers: {
-                        'Authorization': jwtToken,
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                    .then(response => {
-                        // Verarbeiten Sie die Antwort des Servers
-                        console.log(response);
-                        // Hier kommt die Logik hin, die nach dem Seitenwechsel ausgeführt werden soll
-                        window.location.replace('/');
-                    })
-                    .catch(error => {
-                        console.log(error);
-                        // Behandeln Sie etwaige Fehler
-                    });
             } else {
                 alert('Authentifizierung fehlgeschlagen');
             }
@@ -86,6 +70,11 @@ $(document).ready(function() {
         }
     });
 });
+
+function redirectToHomePage() {
+    // Weiterleitung zur Startseite
+    window.location.href = "/";
+}
 
 //
 // //VALIDATION: https://jqueryvalidation.org/

@@ -43,37 +43,27 @@ function addCartProduct(product_id) {
     }
     localStorage.setItem('cart', JSON.stringify(cart));
 
-
-
-    // $.each(productsData, function (i, product) {
-    //
-    //     console.log(product);
-    // });
-
-
-    // // find product in cart (localStorage)
-    // $.each(productsData, function (i, product) {
-    //     console.log(product);
-    // });
-
-    // if not exist add product to cart (localStorage)
-    // if exist rise quantity
-
-    //console.log("setCartProducts: " + data.children().hasClass(".col").hasClass(".card-body").id)
     $(".Placeholder").remove();
-    let cartListItem = data;
-    /*
-      $.each(data, function (i, data) {
+    showCartFromStorage();
 
-          let cartListItem = '<li class="listItem" id="' + data.id + '">'
-              + '<span class="listItemValue" id="productName">' + data.name + '</span>'
-              + '<span class="listItemValue Number" id="productQuantity">' + data.quantity + '</span>'
-              + '<span class="listItemValue Number" id="productPriceSingle"> ' + data.price_single + '</span>'
-              + '<span class="listItemValue Number" id="productPriceTotal">' + data.price_total + '</span>'
-              + '</li>';
-  */
-        $("#homeCartList").append(cartListItem);
-    //})
+
+}
+
+function showCartFromStorage() {
+    let cart = localStorage.getItem('cart');
+    cart = JSON.parse(cart);
+    $.each(cart, function (i, cart_entry){
+        console.log(cart_entry);
+        let cartListItem = '<li class="listItem" id="' + cart_entry.product.id + '">'
+            + '<span class="listItemValue" id="productName">' + cart_entry.product.name + '</span>'
+            + '<span class="listItemValue Number" id="productQuantity">' + cart_entry.quantity + '</span>'
+            + '<span class="listItemValue Number" id="productPriceSingle"> ' + cart_entry.product.price.toFixed(2) + '</span>'
+            + '<span class="listItemValue Number" id="productPriceTotal">' + (cart_entry.product.price * cart_entry.quantity).toFixed(2)  + '</span>'
+            + '</li>';
+
+        $("#cartList").append(cartListItem);
+
+    });
     $(".Number").css({
         "text-align": "right"
     });
@@ -95,7 +85,7 @@ function drop(event) {
     var product_id = event.dataTransfer.getData("product_id");
 
     addCartProduct(product_id);
-    sendCartProduct(data);
+    //sendCartProduct(data);
 }
 
 //-- write ShoppingCart to CartProductsJson
