@@ -24,7 +24,7 @@ function loadProductWorkbench(){
         +  '<h2 class="card-title">Neues Produkt hinzufügen</h2>'
         +  '<input type="file" id="productImage" accept="image/*" />'
         +  '<input type="text" id="productName" placeholder="Name" />'
-        +  '<input type="textarea" id="productDescription" placeholder="Beschreibung" />'
+        +  '<input type="text" id="productDescription" placeholder="Beschreibung" />'
         +  '<input type="number" id="productPrice" step="0.01" placeholder="Preis" />'
         +  '<select id="productCategory">'
         +  '<option value="Cardgame">Cardgame</option>'
@@ -40,7 +40,7 @@ function loadProductWorkbench(){
 function addProduct(){
     console.log("addProductClicked");
     var productName = $("#productName").val();
-    var productDescription = $("productDesctiption").val();
+    var productDescription = $("#productDescription").val();
     var productPrice = parseFloat($("#productPrice").val());
     var productCategory = $("#productCategory").val();
     var productImage = $("#productImage")[0].files[0];
@@ -50,7 +50,7 @@ function addProduct(){
         name: productName,
         description: productDescription,
         price: productPrice,
-        img_path: "8.jpg",
+        img_path: productImage,
         category: productCategory,
         rating: 0
     };
@@ -61,7 +61,7 @@ function addProduct(){
     $.ajax({
         url: "/api/v1/admin/product",
         headers: {
-            "Authorization": "Bearer YOUR_AUTH_TOKEN"
+            "Authorization": sessionStorage.getItem('jwtToken')
         },
         method: "POST",
         contentType: "application/json",
@@ -73,6 +73,7 @@ function addProduct(){
             }
             // Felder zurücksetzen
             $("#productName").val("");
+            $("#productDescription").val("");
             $("#productPrice").val("");
             $("#productCategory").val("");
             $("#productImage").val("");
