@@ -4,7 +4,7 @@ var userData = [];
 var cartData = [];
 
 // -- Products --//
-function getAdminProducts() {
+function getProducts() {
     return new Promise(function (resolve, reject) {
         $.ajax({
             method: "GET",
@@ -21,27 +21,6 @@ function getAdminProducts() {
         });
     });
 };
-
-function getProducts() {
-    return new Promise(function (resolve, reject) {
-        $.ajax({
-            method: "GET",
-            contentType: "application/json",
-            url: "/api/v1/shop/products",
-            success: function (json) {
-                for (let i = 0; i < json.length; i++) {
-                    productsData[json[i].id] = json[i];
-                }
-                resolve(productsData);
-            },
-            error: function () {
-                console.error("An ERROR occured!");
-                reject(Error);
-            },
-        });
-    });
-};
-
 
 // -- USERS -- //
 function getUserById(id) {

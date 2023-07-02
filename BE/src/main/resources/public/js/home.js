@@ -5,11 +5,9 @@ waitFor2Jobs();
 async function waitFor2Jobs() {
     try {
         await getProducts();
-        //await getCart();
         console.log("Beide fertig");
         InitializeSearchFilter();
         loadProducts(productsData);
-        loadCartHTML();
     } catch (error) {
         console.log("An error occured: ", error);
     }

@@ -4,7 +4,7 @@
 waitForJobs();
 async function waitForJobs() {
     try {
-        await getAdminProducts()
+        await getProducts()
         console.log("Produkte abholen fertig");
         loadProductWorkbench()
         console.log(JSON.stringify(productsData));
@@ -82,7 +82,6 @@ function addProduct(){
             console.log(error);
         }
     });
-
 };
 
 function loadProductList(productsData){
