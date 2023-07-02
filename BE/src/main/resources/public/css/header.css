@@ -9,8 +9,13 @@
     padding: 0;
 }
 
-.header nav ul li {
-    display: inline-block;
+.listItem {
+    display: block;
+    margin-right: 10px;
+}
+
+.menu-item {
+    display: flex;
     margin-right: 10px;
 }
 
@@ -35,3 +40,31 @@
 }
 
 .show {display: block;}
+
+#cartList {
+    display: block;
+}
+
+
+
+
+
+
+.header {
+    /* Fügen Sie hier die gewünschten Stile hinzu, z. B. Hintergrundfarbe, Höhe, Abstand usw. */
+}
+
+.menu {
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+    padding: 0;
+}
+
+.menu-item {
+    margin-right: 10px; /* Abstand zwischen den Elementen anpassen */
+}
+
+.menu-item:last-child {
+    margin-right: 0; /* Kein Abstand für das letzte Element */
+}

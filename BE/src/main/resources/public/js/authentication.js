@@ -1,4 +1,7 @@
 $(document).ready(function() {
+
+
+
     // Token aus dem Session Storage lesen
     var jwtToken = sessionStorage.getItem('jwtToken');
 
@@ -29,28 +32,31 @@ function hasValidToken() {
     return token !== null;
 }
 
+
 // Funktion zum Dekodieren eines JSON-Web-Tokens (JWT)
 function decodeJWT(token) {
-    // Hier kannst du die Logik zur Decodierung des JWT implementieren
-    // Beispiel: Verwendung einer JWT-Bibliothek wie 'jsonwebtoken'
-    // Beispiel-Code:
-    const decodedToken = jwt.decode(token);
-    return decodedToken;
-    // Beachte, dass du die entsprechende JWT-Bibliothek installieren musst, um sie verwenden zu können
-    // Bitte passe den Code entsprechend der von dir verwendeten JWT-Bibliothek an
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
 
-    // In diesem Beispiel wird ein Dummy-Objekt zurückgegeben
-    //return { username: 'JohnDoe' };
+    return JSON.parse(jsonPayload);
+}
+
+function getRoleByCurrentToken() {
+    return decodeJWT(sessionStorage.getItem('jwtToken')).role
 }
 
 // Funktion zum Abrufen des angemeldeten Benutzernamens
 function getLoggedInUsername() {
-    const token = sessionStorage.getItem('token');
-    if (token !== null && isTokenValid(token)) {
+    const token = sessionStorage.getItem('jwtToken');
+    if (token !== null) {
+        let subtoken = token.substring(7);
         // Hier kannst du die Logik implementieren, um den Benutzernamen aus dem Token zu extrahieren
         // Beispiel: Annahme, dass das Token im JSON-Web-Token (JWT) Format vorliegt
-        const decodedToken = decodeJWT(token);
-        return decodedToken.username;
+        const decodedToken = decodeJWT(subtoken);
+        return decodedToken.sub;
     } else {
         return null;
     }
@@ -63,20 +69,28 @@ function displayButtonsBasedOnToken() {
     const loginButton = document.getElementById('loginButton');
     const logoutButton = document.getElementById('logoutButton');
 
+    adminButton.style.display = 'none';
+
     if (hasValidToken()) {
         registerButton.style.display = 'none';
         loginButton.style.display = 'none';
         logoutButton.style.display = 'block';
+        userHeader.style.display = 'block';
+
+        if(getRoleByCurrentToken() == "ROLE_ADMIN") {
+            adminButton.style.display = 'block';
+        }
     } else {
         registerButton.style.display = 'block';
         loginButton.style.display = 'block';
         logoutButton.style.display = 'none';
+        userHeader.style.display = 'none';
     }
 }
 
 // Funktion zum Anzeigen des angemeldeten Benutzernamens im Header
 function displayLoggedInUsername() {
-    const usernameElement = document.getElementById('loggedInUsername');
+    const usernameElement = document.getElementById('userprofileContainer');
     const loggedInUsername = getLoggedInUsername();
 
     if (loggedInUsername !== null) {
@@ -95,7 +109,7 @@ window.onload = function() {
 
 function logout(){
 
-    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('jwtToken');
     // Aktualisiere die Anzeige der Buttons und des angemeldeten Benutzernamens
     displayButtonsBasedOnToken();
     displayLoggedInUsername();
