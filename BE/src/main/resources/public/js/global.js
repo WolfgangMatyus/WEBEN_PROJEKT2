@@ -27,7 +27,7 @@ function getUserById(id) {
     return new Promise(function (resolve, reject) {
         $.ajax({
             method: "GET",
-            dataType: "json",
+            contentType: "application/json",
             url: "/api/v1/user/"+id,
             success: function (json) {
                 console.log(json);
@@ -47,7 +47,7 @@ function getUserById(id) {
     return new Promise(function (resolve, reject) {
         $.ajax({
             method: "GET",
-            dataType: "json",
+            contentType: "application/json",
             url: "/api/v1/user/"+id,
             success: function (json) {
                 console.log(json);
@@ -67,7 +67,7 @@ function getUsers() {
     return new Promise(function (resolve, reject) {
         $.ajax({
             method: "GET",
-            dataType: "json",
+            contentType: "application/json",
             url: "/api/v1/admin/users",
             success: function (json) {
                 console.log(json);
@@ -89,7 +89,7 @@ function getCart() {
     return new Promise(function (resolve, reject) {
         $.ajax({
             method: "GET",
-            dataType: "json",
+            contentType: "application/json",
             url: "/api/v1/user/cart",
             success: function (json) {
                 //console.log(json)
@@ -104,29 +104,6 @@ function getCart() {
         });
     });
 };
-
-// --  VOUCHER -- //
-
-function getVoucher() {
-    return new Promise(function (resolve, reject) {
-        $.ajax({
-            method: "GET",
-            dataType: "json",
-            url: "/api/v1/user/cart",
-            success: function (json) {
-                //console.log(json)
-                cartData = json;
-                console.log(cartData);
-                resolve(cartData);
-            },
-            error: function () {
-                console.error("An ERROR occured!");
-                reject(Error);
-            },
-        });
-    });
-};
-
 
 
 

@@ -94,7 +94,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
           .requestMatchers(HttpMethod.GET,"/api/v1/admin/**").permitAll()
           .requestMatchers(HttpMethod.PUT,"/api/v1/admin/**").permitAll()
           .requestMatchers(HttpMethod.DELETE,"/api/v1/admin/**").permitAll()
-          .requestMatchers(HttpMethod.POST,"/api/v1/admin/**").permitAll()
+          .requestMatchers(HttpMethod.POST,"/api/v1/admin/**").hasAnyRole("ADMIN")
           .anyRequest().authenticated()
         ).formLogin()
             .loginPage("/login")
