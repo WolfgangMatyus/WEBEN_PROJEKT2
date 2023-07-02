@@ -1,7 +1,16 @@
 //-- Variables --//
-getUserById(1);
-loadProfile();
-loadUserData();
+waitForJobs();
+async function waitForJobs() {
+    try {
+        //await getProducts();
+        await getUserById(1);
+        loadUserData();
+        loadProfileNavbar();
+        console.log("alle fertig");
+    } catch (error) {
+        console.log("An error occured: ", error);
+    }
+}
 
 function loadCart(){
     //getCart();
@@ -14,9 +23,8 @@ $(document).on(
     'click', '#invoices', setUserInvoicesActive,
 );
 
-
 //-- Navigation User Profile --//
-function loadProfile(){
+function loadProfileNavbar(){
     console.log("loadProfile");
     let profileCardNavbar = '<div class="card" id="cardStammDaten">'
         +'<div class="card-header" id="stammDatenHeader">'
@@ -40,7 +48,7 @@ function loadProfile(){
 
 //-- Navigation User Profile Functionality --//
 function setUserDataActive(){
-    console.log("setUserDataActive");
+    console.log("setUserDataNavActive");
     $(".profile-card-body").hide()
     $(".nav-link").attr("class", "nav-link")
     $("#userData-link").attr("class", "nav-link active")
@@ -48,7 +56,7 @@ function setUserDataActive(){
 }
 
 function setUserCartActive(){
-    console.log("setUserCartActive");
+    console.log("setUserCartNavActive");
     $(".profile-card-body").hide()
     loadCart();
     $(".nav-link").attr("class", "nav-link")
@@ -57,7 +65,7 @@ function setUserCartActive(){
 }
 
 function setUserInvoicesActive(){
-    console.log("setUserInvoicesActive");
+    console.log("setUserInvoicesNavActive");
     $(".profile-card-body").hide()
     loadUserIvoices();
     $(".nav-link").attr("class", "nav-link")
