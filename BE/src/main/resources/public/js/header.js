@@ -41,7 +41,7 @@ function addCartProduct(product_id) {
     if(toAdd) {
         let entry = {};
         entry.quantity = 1;
-        entry.product = productsData[product_id]
+        entry.product = productsData[product_id-1]
         cart.push(entry);
     }
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -56,9 +56,12 @@ function showCartFromStorage() {
     $("#cartList").empty();
     let cart = localStorage.getItem('cart');
     cart = JSON.parse(cart);
+    let cartQuantity = 0;
+    cartSum = 0.00;
+    $("#orderPopup").empty();
     $.each(cart, function (i, cart_entry){
         console.log(cart_entry);
-        let cartListItem = '<li class="listItem" id="' + cart_entry.product.id + '">'
+         let cartListItem = '<li class="listItem" id="' + cart_entry.product.id + '">'
             + '<span class="listItemValue" id="productName">' + cart_entry.product.name + '</span>'
             + '<span class="listItemValue Number" id="productQuantity">' + cart_entry.quantity + '</span>'
             + '<span class="listItemValue Number" id="productPriceSingle"> ' + cart_entry.product.price.toFixed(2) + '</span>'
@@ -68,7 +71,8 @@ function showCartFromStorage() {
         $("#cartList").append(cartListItem);
         $("#orderPopup").append(cartListItem);
 
-        cartSum = cartSum + (cart_entry.product.price * cart_entry.quantity)
+        cartQuantity = cartQuantity + cart_entry.quantity;
+        cartSum = cartSum + (cart_entry.product.price * cart_entry.quantity);
         document.getElementById("cartSum").innerHTML = cartSum;
     });
 
@@ -78,6 +82,7 @@ function showCartFromStorage() {
     document.getElementById("cartSum").innerHTML = cartSum + " €";
     document.getElementById("orderSum").innerHTML = totalAmount + " €";
     document.getElementById("tax-amount").innerHTML = taxSum + " €";
+    document.getElementById("amountProducts").innerHTML = cartQuantity;
 
     $(".Number").css({
         "text-align": "right"
@@ -177,6 +182,7 @@ function createCartContent() {
         '<option value="Klarna">Klarna</option>' +
         "</select>" +
         '<button class="btn btn-primary" onclick="closePopup()">Zahlungspflichtig bestellen!</button>' +
+        '<button class="btn btn-primary" onclick="closePopup()">Zurück zum Shop!</button>' +
         "</div>";
 
     $("#cartContainer").append(cart);
