@@ -5,10 +5,8 @@ var taxSum = 0.00;
 var totalAmount = 0.00;
 
 $(document).ready(function(){
-
     createCartContent();
     showCartFromStorage();
-    //getCartFromBackendd();
 });
 
 function toggleCartClick(event) {
@@ -18,9 +16,6 @@ function toggleCartClick(event) {
 
 function addCartProduct(product_id) {
     console.log("product_id: ", product_id)
-    // find in productData
-
-
 
     let cart = localStorage.getItem('cart');
     if(!cart) {
@@ -28,7 +23,6 @@ function addCartProduct(product_id) {
     } else {
         cart = JSON.parse(cart);
     }
-
 
     let toAdd = true;
     $.each(cart, function (i, cart_entry){
@@ -48,15 +42,11 @@ function addCartProduct(product_id) {
 
     $(".Placeholder").remove();
     showCartFromStorage();
-
-
 }
 
 function removeCartProduct(product_id) {
     console.log("product_id wird gelöscht: ", product_id)
     // find in productData
-
-
 
     let cart = localStorage.getItem('cart');
     if(!cart) {
@@ -72,9 +62,7 @@ function removeCartProduct(product_id) {
 
     $(".Placeholder").remove();
     showCartFromStorage();
-
 }
-
 
 function showCartFromStorage() {
     $("#cartList").empty();
@@ -130,14 +118,9 @@ function drop(event) {
     var product_id = event.dataTransfer.getData("product_id");
 
     addCartProduct(product_id);
-    //sendCartProduct(data);
 }
 
 //-- write ShoppingCart to CartProductsJson
-function sendCartProduct(data) {
-    let to = "cartList";
-    loadCartProducts(to);
-}
 
 function createCartContent() {
     console.log("loadCart");

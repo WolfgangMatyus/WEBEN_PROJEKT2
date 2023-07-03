@@ -1,7 +1,7 @@
 //-- Variables --//
 var productsData = [];
 var userData = [];
-var cartData = [];
+var usersData = [];
 
 // -- Products --//
 function getProducts() {
@@ -32,7 +32,27 @@ function getUserById(id) {
             success: function (json) {
                 console.log(json);
                 userData = json;
-                console.log("userData: " + userData);
+                console.log("userData: " + JSON.stringify(userData));
+                resolve(userData);
+            },
+            error: function () {
+                console.error("An ERROR occured!")
+                reject(Error);
+            }
+        });
+    });
+}
+
+function getCurrentUser() {
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            method: "GET",
+            contentType: "application/json",
+            url: "/api/v1/user/currentUser",
+            success: function (json) {
+                console.log(json);
+                userData = json;
+                console.log("userData: " + JSON.stringify(userData));
                 resolve(userData);
             },
             error: function () {
@@ -51,9 +71,9 @@ function getUsers() {
             url: "/api/v1/admin/users",
             success: function (json) {
                 console.log(json);
-                userData = json;
-                console.log("userData: " + userData);
-                resolve(userData);
+                usersData = json;
+                console.log("userData: " + usersData);
+                resolve(usersData);
             },
             error: function () {
                 console.error("An ERROR occured!")
@@ -63,27 +83,6 @@ function getUsers() {
     });
 }
 
-// -- CART -- //
-
-function getCart() {
-    return new Promise(function (resolve, reject) {
-        $.ajax({
-            method: "GET",
-            contentType: "application/json",
-            url: "/api/v1/user/cart",
-            success: function (json) {
-                //console.log(json)
-                cartData = json;
-                console.log(cartData);
-                resolve(cartData);
-            },
-            error: function () {
-                console.error("An ERROR occured!");
-                reject(Error);
-            },
-        });
-    });
-};
 
 
 

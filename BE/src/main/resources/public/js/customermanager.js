@@ -7,8 +7,8 @@ async function waitForJobs() {
         await getUsers()
         console.log("Kunden abholen fertig");
         loadUserWorkbench()
-        console.log(JSON.stringify(userData));
-        loadUsersList(userData)
+        console.log(JSON.stringify(usersData));
+        loadUsersList(usersData)
     } catch (error) {
         console.log("An error occured: ", error);
     }
@@ -94,9 +94,8 @@ function addUser(){
     });
 };
 
-function loadUsersList(userData){
+function loadUsersList(usersData){
     console.log("loadUsersList");
-
     let adminUserListHeader =
         '<li id="adminUser">'+
         '<div id="userList">'+
@@ -118,8 +117,8 @@ function loadUsersList(userData){
 
     $("#allUserData").append(adminUserListHeader);
 
-    $.each(userData, function (i, user) {
-        console.log("addListItem: " + JSON.stringify(userData));
+    $.each(usersData, function (i, user) {
+        console.log("addListItem: " + JSON.stringify(usersData));
         let listItem = '<li data-userId="' + user.id + '">'
             + '<div class="row">'
             + '<div class="col">'+ user.id + '</div>'
@@ -165,7 +164,7 @@ function deleteUser() {
             console.log(error);
         }
     });
-    userData.splice(index, 1); // Produkt aus dem Array entfernen
+    usersData.splice(index, 1); // Produkt aus dem Array entfernen
     listItem.remove(); // Listenelement entfernen
 };
 

@@ -2,26 +2,15 @@
 waitForJobs();
 async function waitForJobs() {
     try {
-        //await getProducts();
         await getUserById(1);
-        loadUserData();
+        await getCurrentUser();
         loadProfileNavbar();
+        loadUserData();
         console.log("alle fertig");
     } catch (error) {
         console.log("An error occured: ", error);
     }
 }
-
-function loadCart(){
-    //getCart();
-}
-
-//-- EventHandler --//
-$(document).on(
-    'click', '#userData', setUserDataActive,
-    'click', '#userCart', setUserCartActive,
-    'click', '#invoices', setUserInvoicesActive,
-);
 
 //-- Navigation User Profile --//
 function loadProfileNavbar(){
@@ -29,13 +18,13 @@ function loadProfileNavbar(){
     let profileCardNavbar = '<div class="card" id="cardStammDaten">'
         +'<div class="card-header" id="stammDatenHeader">'
         +'<ul class="nav nav-tabs card-header-tabs">'
-        +'<li class="nav-item" id="userData" >' // onclick="setUserDataActive()"
+        +'<li class="nav-item" id="userDataNav" >'
         +'<a class="nav-link active" id="userData-link">Stammdaten</a>'
         +'</li>'
-        +'<li class="nav-item" id="userCart" >' // onclick="setUserCartActive()"
+        +'<li class="nav-item" id="userCartNav" >'
         +'<a class="nav-link" id="userCart-link">Warenkorb</a>'
         +'</li>'
-        +'<li class="nav-item" id="invoices" >' // onclick="setUserInvoicesActive()"
+        +'<li class="nav-item" id="invoicesNav" >'
         +'<a class="nav-link" id="invoices-link">Rechnungen</a>'
         +'</li>'
         +'</ul>'
@@ -45,6 +34,11 @@ function loadProfileNavbar(){
 
     $("#customerData").append(profileCardNavbar);
 }
+
+//-- EventHandler --//
+$(document).on(    'click', '#userDataNav', setUserDataActive);
+$(document).on(    'click', '#userCartNav', setUserCartActive);
+$(document).on(    'click', '#invoicesNav', setUserInvoicesActive);
 
 //-- Navigation User Profile Functionality --//
 function setUserDataActive(){
@@ -58,7 +52,7 @@ function setUserDataActive(){
 function setUserCartActive(){
     console.log("setUserCartNavActive");
     $(".profile-card-body").hide()
-    loadCart();
+    loadUserCart();
     $(".nav-link").attr("class", "nav-link")
     $("#userCart-link").attr("class", "nav-link active")
     $("#userStammdaten").show();
@@ -67,7 +61,7 @@ function setUserCartActive(){
 function setUserInvoicesActive(){
     console.log("setUserInvoicesNavActive");
     $(".profile-card-body").hide()
-    loadUserIvoices();
+    loadUserInvoices();
     $(".nav-link").attr("class", "nav-link")
     $("#invoices-link").attr("class", "nav-link active")
     $("#invoices").show();
@@ -77,7 +71,7 @@ function loadUserData(){
     console.log("loadUserData: " + userData);
     let userDataHtml = '<div class="profile-card-body" id="userStammdaten">'
         +'<h5 class="card-title">Ihre Userstammdaten:</h5>'
-        +'<div class="userData" id="userData">'
+        +'<div class="userCurrentData" id="userCurrentData">'
         +'<div class="row">'
         +'<div class="userDataLable col" for="changeEmail" id="emailLable">Email: </div>'
         +'<div class="userDataValue col" id="emailValue">'+userData.email+'</div>'
@@ -95,7 +89,7 @@ function loadUserData(){
         +'</div>'
         +'</div>'
 
-    let userPaymentType = '<div class="userData" id="userData">'
+    let userPaymentType = '<div class="userPaymentData" id="userPaymentData">'
         + '<h5 class="card-title">Ihre Zahlungsart:</h5>'
         + '<div class="paymentTypes" id="paymentTypes">'
         + '<p>Bitte wählen sie eine Zahlungsart:</p>'
@@ -118,10 +112,55 @@ function loadUserData(){
 
 function changeUserData(){
     console.log("changeUserData");
-    getUserData();
-    $("#emailLable").append('<input type="email" class="changeInput center" id="changeEmail" type="text" placeholder="'+json[2].email+'"></input>')
-    $("#firstnameLable").append('<input type="text" class="changeInput" id="changeFirstname" type="text" type="text" placeholder="'+json[2].firstname+'"></input>')
-    $("#lastnameLable").append('<input type="text" class="changeInput" id="changeLastname" type="text" type="text" placeholder="'+json[2].lastname+'"></input>')
-    $("#changeDataBtn").attr('onclick', 'sendDataToBackend')
+    $("#emailLable").append('<input type="email" class="changeInput center" id="changeEmail" type="text" placeholder="'+userData.email+'"/>');
+    $("#firstnameLable").append('<input type="text" class="changeInput" id="changeFirstname" type="text" type="text" placeholder="'+userData.firstname+'"/>');
+    $("#lastnameLable").append('<input type="text" class="changeInput" id="changeLastname" type="text" type="text" placeholder="'+userData.lastname+'"/>');
+    $("#changeDataBtn").remove();
+    $("#userCurrentData").append('<button class="btn btn-primary" id="updateUser" onclick="updateUser()">Änderung vornehmen</button>');
 }
 
+function updateUser() {
+    console.log("updateUserClicked");
+    var updateEmail = $("#changeEmail").val();
+    var updateFirstname = $("#changeFirstname").val();
+    var updateLastname = $("#changeLastname").val();
+
+    // Update Objekt erstellen
+    var updateUser = {
+        id: userData.id,
+        username: userData.username,
+        email: updateEmail,
+        firstname: updateFirstname,
+        lastname: updateLastname,
+        active: userData.active,
+        address: userData.address,
+        zip_code: userData.zip_code,
+        place: userData.place,
+        payment: userData.payment,
+    };
+    console.log("updateUser: " + updateUser);
+
+    $.ajax({
+        url: "/api/v1/admin/user/"+ userData.id,
+        type: "PUT",
+        data: JSON.stringify(updateUser),
+        contentType: "application/json",
+        success: function (response) {
+            console.log("User Update successful!");
+            console.log(response);
+        },
+        error: function (xhr, status, error) {
+            // Handle the error response
+            console.error("Error in PUT request");
+            console.error(xhr.responseText);
+        }
+    });
+}
+
+function loadUserCart(){
+    console.log("UserCart loaded")
+}
+
+function loadUserInvoices(){
+    console.log("UserInvoices loaded")
+}

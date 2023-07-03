@@ -22,7 +22,7 @@ public class CustomerController {
         return ResponseEntity.ok("CUSTOMER WORKS");
     }
 
-    @GetMapping("/actualUser")
+    @GetMapping("/currentUser")
     public ResponseEntity<User> getActiveUser() {
         User actualUser = userService.getActiveUser();
         System.out.print(actualUser);

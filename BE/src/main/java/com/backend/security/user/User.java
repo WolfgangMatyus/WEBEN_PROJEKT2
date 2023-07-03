@@ -25,6 +25,7 @@ public class User implements UserDetails {
   @GeneratedValue()
   private Integer id;
 
+  private String username;
   private String firstname;
   private String lastname;
   private String email;
@@ -32,7 +33,9 @@ public class User implements UserDetails {
   private String password;
   private Boolean active;
 
-  private String adresse;
+  private String address;
+  private String zip_code;
+  private String place;
   private String payment;
 
   @Enumerated(EnumType.STRING)
@@ -50,8 +53,6 @@ public class User implements UserDetails {
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return List.of(new SimpleGrantedAuthority(role.name()));
   }
-
-
   //Anrede
   // ii. Vorname
   // iii. Nachname
