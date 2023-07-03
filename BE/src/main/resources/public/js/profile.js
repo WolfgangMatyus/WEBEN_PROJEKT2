@@ -8,7 +8,7 @@
 waitForProfileJobs();
 async function waitForProfileJobs() {
     try {
-        await getUserById(1); // ??muss gleaden werden damit getCurrentUser funktioniert??
+        await getUserById(1); // ??muss geladen werden damit getCurrentUser funktioniert??
         await getCurrentUser();
         loadProfileNavbar();
         loadUserData();
