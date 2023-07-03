@@ -3,7 +3,7 @@
 // wenn der PUT Call durchläuft werden die Daten zwar aktualisiert aber die User_ROLE wird in der DB auf Null gesetzt
 
 //-- VARIABLES --//
-
+invoice = [];
 //-- CODE --//
 waitForProfileJobs();
 async function waitForProfileJobs() {
@@ -205,4 +205,19 @@ function loadUserCart(){
 
 function loadUserInvoices(){
     console.log("UserInvoices loaded")
+
+    let invoiceList = '<ul id="userInvoices"></ul>' +
+                      '<div id="invoiceList">' +
+                      '<h2>Ihre Rechnungen:</h2>' +
+                      '</div>'
+
+    let invoiceListItem = '<li class="list-group-item" data-invoiceId="' + invoice.id + '">' +
+                          '<a href="invoice">Rechnung anzeigen</a>' +
+                          '</li>';
+
+    $("#cardStammDaten").append(invoiceList);
+    $("#invoiceList").append(invoiceListItem);
+
 }
+
+

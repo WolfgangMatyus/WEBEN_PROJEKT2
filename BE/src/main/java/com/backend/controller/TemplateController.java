@@ -49,9 +49,9 @@ public class TemplateController {
     }
 
 
-    @GetMapping("/invoices")
+    @GetMapping("/invoice")
     public String invoices() {
-        return "user/invoices";
+        return "user/invoice";
     }
 
     @GetMapping("/orders")
