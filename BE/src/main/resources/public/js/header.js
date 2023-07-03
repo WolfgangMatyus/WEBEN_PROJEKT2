@@ -17,7 +17,15 @@ $(document).ready( function (){
 function toggleCartClick(event) {
     console.log("clickedcart");
     document.getElementById("cartContainer").classList.toggle("show");
+    showCartFromStorage();
 }
+
+document.addEventListener("click", function(event) {
+    var cartContainer = document.getElementById("cartContainer");
+    if (event.target !== cartContainer && !cartContainer.contains(event.target)) {
+        document.getElementById("cartContainer").classList.remove("show");
+    }
+});
 
 function addCartProduct(product_id) {
     console.log("product_id: ", product_id)
@@ -94,7 +102,7 @@ function showCartFromStorage() {
         document.getElementById("cartSum").innerHTML = cartSum;
     });
 
-    totalAmount = cartSum - voucherAmount;
+    totalAmount = (cartSum - voucherAmount).toFixed(2);
     taxSum = (totalAmount / 100 * 20).toFixed(2)
 
     document.getElementById("cartSum").innerHTML = cartSum + " €";
