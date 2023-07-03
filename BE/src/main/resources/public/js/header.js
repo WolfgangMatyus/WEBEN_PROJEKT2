@@ -3,8 +3,13 @@ var cartSum = 0.00;
 var voucherAmount = 0.00;
 var taxSum = 0.00;
 var totalAmount = 0.00;
-
-$(document).ready(function(){
+/*
+function loadHeaderValues(){
+    createCartContent();
+    showCartFromStorage();
+};
+*/
+$(document).ready( function (){
     createCartContent();
     showCartFromStorage();
 });

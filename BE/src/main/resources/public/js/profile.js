@@ -1,8 +1,14 @@
-//-- Variables --//
-waitForJobs();
-async function waitForJobs() {
+//-- ISSUES --//
+// Benutzername wird von username immer auf Mailadresse gesetzt
+// wenn der PUT Call durchläuft werden die Daten zwar aktualisiert aber die User_ROLE wird in der DB auf Null gesetzt
+
+//-- VARIABLES --//
+
+//-- CODE --//
+waitForProfileJobs();
+async function waitForProfileJobs() {
     try {
-        //await getUserById(1);
+        await getUserById(1); // ??muss gleaden werden damit getCurrentUser funktioniert??
         await getCurrentUser();
         loadProfileNavbar();
         loadUserData();
@@ -72,59 +78,59 @@ function loadUserData(){
     let userDataHtml = '<div class="profile-card-body" id="userStammdaten">'
         +'<h5 class="card-title">Ihre Userstammdaten:</h5>'
         +'<div class="userCurrentData" id="userCurrentData">'
-        +'<div class="row">'
-        +'<div class="userDataLabel col" for="changeUsername" id="usernameLabel">Benutzername: </div>'
-        +'<div class="userDataValue col" id="usernameValue">'+userData.username+'</div>'
+        +'<div class="row" id="username">'
+        +'<div class="userDataLabel col-4" for="changeUsername" id="usernameLabel">Benutzername: </div>'
+        +'<div class="userDataValue col-4" id="usernameValue">'+userData.username+'</div>'
         +'</div>'
-        +'<div class="row">'
-        +'<div class="userDataLabel col" for="changeEmail" id="emailLabel">Email: </div>'
-        +'<div class="userDataValue col" id="emailValue">'+userData.email+'</div>'
+        +'<div class="row" id="email">'
+        +'<div class="userDataLabel col-4" for="changeEmail" id="emailLabel">Email: </div>'
+        +'<div class="userDataValue col-4" id="emailValue">'+userData.email+'</div>'
         +'</div>'
-        +'<div class="row">'
-        +'<div class="userDataLabel col" for="changeFirstname" id="firstnameLabel">Vorname: </div>'
-        +'<div class="userDataValue col" id="firstnameValue">'+userData.firstname+'</div>'
+        +'<div class="row" id="firstname">'
+        +'<div class="userDataLabel col-4" for="changeFirstname" id="firstnameLabel">Vorname: </div>'
+        +'<div class="userDataValue col-4" id="firstnameValue">'+userData.firstname+'</div>'
         +'</div>'
-        +'<div class="row">'
-        +'<div class="userDataLabel col" for="changeLastname" id="lastnameLabel">Nachname: </div>'
-        +'<div class="userDataValue col" id="lastnameValue">'+userData.lastname+'</div>'
+        +'<div class="row" id="lastname">'
+        +'<div class="userDataLabel col-4" for="changeLastname" id="lastnameLabel">Nachname: </div>'
+        +'<div class="userDataValue col-4" id="lastnameValue">'+userData.lastname+'</div>'
         +'</div>'
         +'</div>'
 
-    let addressData = '<div class="addressData" id="addressData"></div>'
+    let addressData = '<div class="addressData"></div>'
         + '<h5 class="card-title">Ihre Adresse:</h5>'
-        +'<div class="row">'
-        +'<div class="userDataLabel col" for="changeAddress" id="addressLabel">Strasse: </div>'
-        +'<div class="userDataValue col" id="addressValue">'+userData.address+'</div>'
+        +'<div class="row" id="address">'
+        +'<div class="userDataLabel col-2" for="changeAddress" id="addressLabel">Strasse: </div>'
+        +'<div class="userDataValue col-4" id="addressValue">'+userData.address+'</div>'
         +'</div>'
-        +'<div class="row">'
-        +'<div class="userDataLabel col" for="changeZip_code" id="zip_codeLabel">PLZ: </div>'
-        +'<div class="userDataValue col" id="zip_codeValue">'+userData.zip_code+'</div>'
+        +'<div class="row" id="zip_code">'
+        +'<div class="userDataLabel col-2" for="changeZip_code" id="zip_codeLabel">PLZ: </div>'
+        +'<div class="userDataValue col-4" id="zip_codeValue">'+userData.zip_code+'</div>'
         +'</div>'
-        +'<div class="row">'
-        +'<div class="userDataLabel col" for="changePlace" id="placeLabel">Ort: </div>'
-        +'<div class="userDataValue col" id="placeValue">'+userData.place+'</div>'
+        +'<div class="row" id="place">'
+        +'<div class="userDataLabel col-2" for="changePlace" id="placeLabel">Ort: </div>'
+        +'<div class="userDataValue col-4" id="placeValue">'+userData.place+'</div>'
         +'</div>'
 
         let userPaymentType = '<div class="userPaymentData" id="userPaymentData">'
         + '<h5 class="card-title">Ihre Zahlungsart:</h5>'
         + '<div class="paymentTypes" id="paymentTypes">'
         + '<p>Bitte wählen sie eine Zahlungsart:</p>'
-        + '<input type="radio" id="kreditkarte" name="paymentType" value="kreditkarte">'
+        + '<input type="checkbox" id="kreditkarte" name="paymentType" value="kreditkarte">'
         + '<label for="kreditkarte"> Kreditkarte</label><br>'
-        + '<input type="radio" id="eps" name="paymentType" value="eps">'
+        + '<input type="checkbox" id="eps" name="paymentType" value="eps">'
         + '<label for="eps"> EPS</label><br>'
-        + '<input type="radio" id="Klarna" name="paymentType" value="Klarna">'
+        + '<input type="checkbox" id="Klarna" name="paymentType" value="Klarna">'
         + '<label for="Klarna"> Klarna</label><br>'
-        + '<input type="radio" id="paypal" name="paymentType" value="paypal">'
+        + '<input type="checkbox" id="paypal" name="paymentType" value="paypal">'
         + '<label for="paypal"> Paypal</label>'
         + '</div>'
         + '</div>'
 
     let additionalData = '<div class="row">'
-                    +   '<div class="col">'
+                    +   '<div class="col-4">'
                     +   userPaymentType
                     +   '</div>'
-                    +   '<div class="col">'
+                    +   '<div class="col-8" id="addressData">'
                     +   addressData
                     +   '<button class="btn btn-primary" id="changeDataBtn" onclick="changeUserData()">Stammdaten anpassen</button>'
                     +   '</div>'
@@ -137,15 +143,15 @@ function loadUserData(){
 
 function changeUserData(){
     console.log("changeUserData");
-    $("#usernameLabel").append('<input type="text" class="changeInput" id="changeUsername" type="text" type="text" placeholder="'+userData.username+'"/>');
-    $("#emailLabel").append('<input type="email" class="changeInput center" id="changeEmail" type="text" placeholder="'+userData.email+'"/>');
-    $("#firstnameLabel").append('<input type="text" class="changeInput" id="changeFirstname" type="text" type="text" placeholder="'+userData.firstname+'"/>');
-    $("#lastnameLabel").append('<input type="text" class="changeInput" id="changeLastname" type="text" type="text" placeholder="'+userData.lastname+'"/>');
-    $("#addressLabel").append('<input type="text" class="changeInput center" id="changeAddress" type="text" placeholder="'+userData.address+'"/>');
-    $("#zip_codeLabel").append('<input type="text" class="changeInput center" id="changeZip_code" type="text" placeholder="'+userData.zip_code+'"/>');
-    $("#placeLabel").append('<input type="text" class="changeInput center" id="changePlace" type="text" placeholder="'+userData.place+'"/>');
+    $("#username").append('<input type="text" class="col-3 changeInput" id="changeUsername" type="text" type="text" placeholder="'+userData.username+'"/>');
+    $("#email").append('<input type="email" class="col-3 changeInput center" id="changeEmail" type="text" placeholder="'+userData.email+'"/>');
+    $("#firstname").append('<input type="text" class="col-3 changeInput" id="changeFirstname" type="text" type="text" placeholder="'+userData.firstname+'"/>');
+    $("#lastname").append('<input type="text" class="col-3 changeInput" id="changeLastname" type="text" type="text" placeholder="'+userData.lastname+'"/>');
+    $("#address").append('<input type="text" class="col-5 changeInput center" id="changeAddress" type="text" placeholder="'+userData.address+'"/>');
+    $("#zip_code").append('<input type="text" class="col-5 changeInput center" id="changeZip_code" type="text" placeholder="'+userData.zip_code+'"/>');
+    $("#place").append('<input type="text" class="col-5 changeInput center" id="changePlace" type="text" placeholder="'+userData.place+'"/>');
     $("#changeDataBtn").remove();
-    $("#placeLabel").append('<button class="btn btn-primary" id="updateUser" onclick="updateUser()">Änderung vornehmen</button>');
+    $("#addressData").append('<button class="btn btn-primary" id="updateUser" onclick="updateUser()">Änderung vornehmen</button>');
 }
 
 function updateUser() {
@@ -174,7 +180,7 @@ function updateUser() {
         payment: updatePayment,
     };
     console.log("updateUser: " + JSON.stringify(updateUser));
-
+    window.location.href = "http://localhost:8181/login";
     $.ajax({
         url: "/api/v1/admin/user/"+ userData.id,
         type: "PUT",
