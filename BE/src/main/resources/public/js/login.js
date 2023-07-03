@@ -62,3 +62,48 @@ function sendLoginData(){
     });
     window.location.href = "http://localhost:8181/profile";
 }
+
+
+//-- ANMELDEDATEN MERKEN COOKIE --//
+
+// Funktion zum Setzen des Cookies
+function setLoginCookie(email, remember) {
+    var expirationDays = remember ? 7 : 1; // Ablaufzeit des Cookies in Tagen
+    var date = new Date();
+    date.setTime(date.getTime() + (expirationDays * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + date.toUTCString();
+    document.cookie = "email=" + email + ";" + expires + ";path=/";
+}
+
+// Funktion zum Auslesen des Cookies
+function getLoginCookie() {
+    var name = "email=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var cookieArray = decodedCookie.split(';');
+    for (var i = 0; i < cookieArray.length; i++) {
+        var cookie = cookieArray[i];
+        while (cookie.charAt(0) === ' ') {
+            cookie = cookie.substring(1);
+        }
+        if (cookie.indexOf(name) === 0) {
+            return cookie.substring(name.length, cookie.length);
+        }
+    }
+    return "";
+}
+
+// Überprüfe, ob ein Cookie für die Anmeldedaten vorhanden ist
+var savedEmail = getLoginCookie();
+if (savedEmail !== "") {
+    // Setze das gespeicherte E-Mail in das Eingabefeld
+    $("#email").val(savedEmail);
+    // Aktiviere das Merken der Anmeldedaten
+    $("#vehicle1").prop("checked", true);
+}
+
+// Event Listener für das Absenden des Formulars
+$("#loginForm").on("submit", function(event) {
+    var email = $("#email").val();
+    var remember = $("#vehicle1").is(":checked");
+    setLoginCookie(email, remember);
+});
