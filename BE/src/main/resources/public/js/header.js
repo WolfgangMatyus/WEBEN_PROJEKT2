@@ -20,13 +20,6 @@ function toggleCartClick(event) {
     showCartFromStorage();
 }
 
-document.addEventListener("click", function(event) {
-    var cartContainer = document.getElementById("cartContainer");
-    if (event.target !== cartContainer && !cartContainer.contains(event.target)) {
-        document.getElementById("cartContainer").classList.remove("show");
-    }
-});
-
 function addCartProduct(product_id) {
     console.log("product_id: ", product_id)
 
