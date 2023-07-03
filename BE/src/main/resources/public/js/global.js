@@ -43,26 +43,6 @@ function getUserById(id) {
     });
 }
 
-function getUserById(id) {
-    return new Promise(function (resolve, reject) {
-        $.ajax({
-            method: "GET",
-            contentType: "application/json",
-            url: "/api/v1/user/"+id,
-            success: function (json) {
-                console.log(json);
-                userData = json;
-                console.log("userData: " + userData);
-                resolve(userData);
-            },
-            error: function () {
-                console.error("An ERROR occured!")
-                reject(Error);
-            }
-        });
-    });
-}
-
 function getUsers() {
     return new Promise(function (resolve, reject) {
         $.ajax({

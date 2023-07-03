@@ -16,6 +16,7 @@ async function waitForJobs() {
 
 //-- EventHandler --//
 $(document).on('click', '#addProduct', addProduct);
+$(document).on('click', '#deleteProduct', deleteProduct);
 
 function loadProductWorkbench(){
 
@@ -88,47 +89,70 @@ function addProduct(){
 function loadProductList(productsData){
     console.log("loadProductList");
 
-    let adminProductListHeader = '<div id="productList">'+
+    let adminProductListHeader = '<li id="adminProducts">' +
+                                 '<div id="productList">'+
                                  '<h2>Produktliste</h2>'+
                                  '<div class="row">' +
+                                 '<div class="col">ID: </div>' +
                                  '<div class="col">Image: </div>' +
                                  '<div class="col">Name: </div>' +
                                  '<div class="col">Beschreibung: </div>' +
                                  '<div class="col">Preis: </div>' +
                                  '<div class="col">Kategorie: </div>' +
                                  '<div class="col">Bewertung: </div>' +
+                                 '<div class="col">Bearbeiten: </div>' +
+                                 '<div class="col">Löschen: </div>' +
                                  '</div>' +
-                                 '<ul id="amdinProducts"></ul>'
+                                 '</li>'
 
         $("#allProductsData").append(adminProductListHeader);
 
         $.each(productsData, function (i, product) {
         console.log("addListItem: " + JSON.stringify(productsData));
-        let listItem = '<li>' +
+        let listItem = '<li data-productId="' + product.id + '">' +
             '<div class="row">' +
-            '<div class="col">'+
+            '<div class="col">' + product.id + '</div>' +
+            '<div class="col">' +
             '<img src="../img/' + product.img_path + '" width="100" height="100"/>' +
             '</div>' +
-            '<div class="col">'+product.name + '</div>' +
-            '<div class="col">'+product.description + '</div>' +
-            '<div class="col">'+product.price.toFixed(2) + '</div>' +
-            '<div class="col">'+product.category + '</div>' +
-            '<div class="col">'+product.rating + '</div>' +
-            '</div>' +
-            '</li>' +
-            '<div class="row">' +
-            '<div class="col"><button class="btn btn-primary" id="editProduct">Bearbeiten</button></div>' +
-            '<div class="col"><button class="btn btn-primary" id="deleteProduct">Löschen</button></div>' +
-            '</div>';
+            '<div class="col">' + product.name + '</div>' +
+            '<div class="col">' + product.description + '</div>' +
+            '<div class="col">' + product.price.toFixed(2) + '</div>' +
+            '<div class="col">' + product.category + '</div>' +
+            '<div class="col">' + product.rating + '</div>' +
+            '<div class="col">' + '<button class="btn btn-primary editProduct" id="editProduct">Bearbeiten</button>' +'</div>' +
+            '<div class="col">' + '<button class="btn btn-primary deleteProduct" id="deleteProduct">Löschen</button>' + '</div>'
+            +'</li>';
 
-        $("#amdinProducts").append(listItem);
+        $("#adminProducts").append(listItem);
     });
 }
 
  // Eventlistener für den "Löschen" Button
- $("#amdinProducts").on("click", ".deleteProduct", function() {
-    var listItem = $(this).parent();
-    var index = $("#products li").index(listItem);
-    products.splice(index, 1); // Produkt aus dem Array entfernen
+ function deleteProduct() {
+    let listItem = $(this).closest("li");
+    console.log(listItem);
+    let index = $("#adminProducts li").index(listItem);
+    let productId = listItem.attr("data-productId");
+
+    console.log("index: " + index);
+    console.log("productId: " + productId);
+
+     $.ajax({
+         url: "/api/v1/admin/product/" + productId,
+         method: "DELETE",
+         contentType: "application/json",
+         success: function(response){
+             if (response.statusCode === 200) {
+                 console.log("Produkt gelöscht");
+                 alert("Produkt gelöscht!")
+             }
+         },
+         error: function(xhr, status, error) {
+             console.error("Fehler beim Löschen des Produkts:");
+             console.log(error);
+         }
+     });
+    productsData.splice(index, 1); // Produkt aus dem Array entfernen
     listItem.remove(); // Listenelement entfernen
- });
+ };

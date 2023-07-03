@@ -1,3 +1,7 @@
+if(getRoleByCurrentToken() != "ROLE_ADMIN" || getRoleByCurrentToken() != "ROLE_USER") {
+    window.location.href = "/";
+}
+
 //-- Variables --//
 waitForJobs();
 async function waitForJobs() {

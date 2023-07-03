@@ -22,6 +22,13 @@ public class CustomerController {
         return ResponseEntity.ok("CUSTOMER WORKS");
     }
 
+    @GetMapping("/actualUser")
+    public ResponseEntity<User> getActiveUser() {
+        User actualUser = userService.getActiveUser();
+        System.out.print(actualUser);
+        return ResponseEntity.ok(actualUser);
+    }
+
     @GetMapping("/{userID}")
     public ResponseEntity<User> getUserById(@PathVariable("userID") Integer userId) {
         User user = userService.getUserById(userId);
@@ -33,7 +40,7 @@ public class CustomerController {
     }
 
     @PostMapping ("/register")
-    public ResponseEntity<User> updateUserByID(@RequestBody User user){
+    public ResponseEntity<User> createUser(@RequestBody User user){
         userService.createUser(user);
         return ResponseEntity.ok(user);
     }
