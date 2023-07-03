@@ -46,7 +46,12 @@
 }
 
 
-
+#amountProducts {
+    background-color: red;
+    padding: 0px 8px;
+    border-radius: 50%;
+    color: snow;
+}
 
 
 

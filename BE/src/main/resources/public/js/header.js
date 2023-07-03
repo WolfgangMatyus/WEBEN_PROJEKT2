@@ -76,15 +76,15 @@ function showCartFromStorage() {
     let cartQuantity = 0;
     cartSum = 0.00;
     $("#orderPopup").empty();
-    $.each(cart, function (i, cart_entry){
+    $.each(cart, function (i, cart_entry) {
         console.log(cart_entry);
-         let cartListItem = '<li class="listItem" id="' + cart_entry.product.id + '">'
+        let cartListItem = '<li class="listItem" id="' + cart_entry.product.id + '">'
             + '<span class="listItemValue" id="productName">' + cart_entry.product.name + '</span>'
             + '<span class="listItemValue Number" id="productQuantity">' + cart_entry.quantity + '</span>'
             + '<span class="listItemValue Number" id="productPriceSingle"> ' + cart_entry.product.price.toFixed(2) + '</span>'
-            + '<span class="listItemValue Number" id="productPriceTotal">' + (cart_entry.product.price * cart_entry.quantity).toFixed(2)  + '</span>'
-            + '<button class="btn btn-primary" onclick="removeCartProduct('+cart_entry.product.id+')">Produkt entfernen</button>'
-            + '<button class="btn btn-primary" onclick="addCartProduct('+cart_entry.product.id+')">mehr davon!</button>' + '</li>';
+            + '<span class="listItemValue Number" id="productPriceTotal">' + (cart_entry.product.price * cart_entry.quantity).toFixed(2) + '</span>'
+            + '<button class="btn btn-primary" onclick="removeCartProduct(' + cart_entry.product.id + ')">Produkt entfernen</button>'
+            + '<button class="btn btn-primary" onclick="addCartProduct(' + cart_entry.product.id + ')">mehr davon!</button>' + '</li>';
 
         $("#cartList").append(cartListItem);
         $("#orderPopup").append(cartListItem);
@@ -95,7 +95,7 @@ function showCartFromStorage() {
     });
 
     totalAmount = cartSum - voucherAmount;
-    taxSum = (totalAmount /100*20).toFixed(2)
+    taxSum = (totalAmount / 100 * 20).toFixed(2)
 
     document.getElementById("cartSum").innerHTML = cartSum + " €";
     document.getElementById("orderSum").innerHTML = totalAmount + " €";
@@ -105,6 +105,12 @@ function showCartFromStorage() {
     $(".Number").css({
         "text-align": "right"
     });
+
+    if (document.getElementById("amountProducts").innerHTML === 0) {
+        $("#amountProducts").hide()
+    } else {
+        $("#amountProducts").show()
+    }
 }
 
 //-- DragAndDrop --//
@@ -118,10 +124,8 @@ function drag(event) {
 }
 
 function drop(event) {
-
     event.preventDefault();
     var product_id = event.dataTransfer.getData("product_id");
-
     addCartProduct(product_id);
 }
 
@@ -138,12 +142,14 @@ function createCartContent() {
         '<div class="col center"><h5>Gesamt</5></div>' +
         "</div>" +
         "</div>";
+
     let cartList =
         '<ul class="cartList" id="cartList">' +
         '<div class="Placeholder" id="cartListPlaceholder">' +
         "Sie können Ihre Produkte hier in den Warenkorb ziehen!" +
         "</div>" +
         "</ul>";
+
     let cartSum =
         '<div class="row">' +
         '<div class="col" id="cartSumLable">SUMME:</div>' +
@@ -206,15 +212,13 @@ function createCartContent() {
         padding: "40px",
         margin: "20px 30px 20px 0px",
     });
-    $(".Number").css({ "text-align": "right" });
+
+    $(".Number").css({"text-align": "right"});
 };
-
-
 function openPopup() {
     document.getElementById("popup").style.display = "block";
     document.getElementById("overlay").style.display = "block";
 }
-
 
 function applyCoupon() {
     var couponInput = document.getElementById("coupon-input").value;
