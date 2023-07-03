@@ -87,7 +87,7 @@ function addProduct(){
 };
 
 function loadProductList(productsData){
-    let adminProductListHeader = '<li id="adminProducts">' +
+    let adminProductListHeader = '<ul id="adminProducts">' +
                                  '<div id="productList">'+
                                  '<h2>Produktliste</h2>'+
                                  '<div class="row">' +
@@ -101,12 +101,12 @@ function loadProductList(productsData){
                                  '<div class="col">Bearbeiten: </div>' +
                                  '<div class="col">Löschen: </div>' +
                                  '</div>' +
-                                 '</li>'
+                                 '</ul>'
 
         $("#allProductsData").append(adminProductListHeader);
 
         $.each(productsData, function (i, product) {
-        let listItem = '<li data-productId="' + product.id + '">' +
+        let listItem = '<li class="list-group-item" data-productId="' + product.id + '">' +
             '<div class="row">' +
             '<div class="col">' + product.id + '</div>' +
             '<div class="col">' +

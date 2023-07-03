@@ -1,14 +1,11 @@
 var voucherData = [];
 
 $(document).ready(function(){
-
     getAllVouchers();
     loadVoucherWorkbench();
-
 });
 
 $(document).on('click', '#addVoucher', addVoucher);
-
 
 function getAllVouchers() {
     $.ajax({
@@ -38,7 +35,7 @@ function loadProductList(){
     $("#voucherHeader").append(adminVoucherListHeader);
 
     $.each(voucherData, function (i, voucher) {
-        let listItem = '<li>' +
+        let listItem = '<li class="list-group-item">' +
             '<div class="row">' +
             '<div class="col">'+voucher.id + '</div>' +
             '<div class="col">'+voucher.amount + '</div>' +

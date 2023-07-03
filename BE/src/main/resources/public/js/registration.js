@@ -107,8 +107,9 @@ function sendRegistrationData(){
         password: $('#password').val(),
         address: $('#address').val(),
         zip_code: $('#zip_code').val(),
-        place: $('#place').val(),
-        payment : $('#payment').val()
+        town: $('#place').val(),
+        payment: $('#payment').val(),
+        activeL: 1
     }
 
     console.log(data);

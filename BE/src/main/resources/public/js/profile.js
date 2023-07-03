@@ -169,7 +169,7 @@ function updateUser() {
     var updateUser = {
         id: userData.id,
         active: userData.active,
-        rode: userData.role,
+        role: userData.role,
         username: updateUsername,
         email: updateEmail,
         firstname: updateFirstname,
@@ -180,7 +180,7 @@ function updateUser() {
         payment: updatePayment,
     };
     console.log("updateUser: " + JSON.stringify(updateUser));
-    window.location.href = "http://localhost:8181/login";
+    // Passwortabfrage
     $.ajax({
         url: "/api/v1/admin/user/"+ userData.id,
         type: "PUT",

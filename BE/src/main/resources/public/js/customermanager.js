@@ -97,7 +97,7 @@ function addUser(){
 function loadUsersList(usersData){
     console.log("loadUsersList");
     let adminUserListHeader =
-        '<li id="adminUser">'+
+        '<ul id="adminUser">'+
         '<div id="userList">'+
         '<h2>Userliste</h2>'+
         '<div class="row">' +
@@ -113,13 +113,13 @@ function loadUsersList(usersData){
         '<div class="col">Bearbeiten: </div>' +
         '<div class="col">Löschen: </div>' +
         '</div>' +
-        '</li>';
+        '</ul>';
 
     $("#allUserData").append(adminUserListHeader);
 
     $.each(usersData, function (i, user) {
         console.log("addListItem: " + JSON.stringify(usersData));
-        let listItem = '<li data-userId="' + user.id + '">'
+        let listItem = '<li class="list-group-item" data-userId="' + user.id + '">'
             + '<div class="row">'
             + '<div class="col">'+ user.id + '</div>'
             + '<div class="col">'+ user.email + '</div>'

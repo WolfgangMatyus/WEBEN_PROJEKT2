@@ -55,16 +55,16 @@ function loadProducts(productsData) {
     $("#productListContainer").empty().append(productCardsList);
     var filteredProducts = productsData;
 
-    if (categoryFilterValue === "besteBewertung") {
-        filteredProducts = filteredProducts.sort(function (a, b) {return b.rating - a.rating;});
-    }
-
-     filteredProducts = filteredProducts.filter(function (product) {
+    filteredProducts = filteredProducts.filter(function (product) {
         return (
             (categoryFilterValue === "" || product.category.toLowerCase() === categoryFilterValue.toLowerCase()) &&
             (priceFilterValue === "" || checkPriceFilter(priceFilterValue, product.price)) &&
             (searchInputValue === "" || product.name.toLowerCase().includes(searchInputValue)))
         });
+
+    if (categoryFilterValue === "besteBewertung") {
+        filteredProducts = filteredProducts.sort(function (a, b) {return b.rating - a.rating;});
+    }
 
     function checkPriceFilter(priceFilter, productPrice) {
         switch (priceFilter) {

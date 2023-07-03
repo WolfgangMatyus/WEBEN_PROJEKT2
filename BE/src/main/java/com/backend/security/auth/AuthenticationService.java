@@ -33,7 +33,6 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -47,10 +46,16 @@ public class AuthenticationService {
   @Transactional
   public AuthenticationResponse register(RegisterRequest request) {
     var user = User.builder()
+        .username(request.getUsername())
         .firstname(request.getFirstname())
         .lastname(request.getLastname())
         .email(request.getEmail())
+        .address(request.getAddress())
+        .town(request.getTown())
+        .zip_code(request.getZip_code())
+        .payment(request.getPayment())
         .password(passwordEncoder.encode(request.getPassword()))
+        .active(request.getActive())
         .role(Role.ROLE_USER)
         .build();
     var savedUser = repository.save(user);
