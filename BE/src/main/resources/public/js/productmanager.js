@@ -16,6 +16,7 @@ async function waitForJobs() {
 
 //-- EventHandler --//
 $(document).on('click', '#addProduct', addProduct);
+$(document).on('click', '#deleteProduct', deleteProduct);
 
 function loadProductWorkbench(){
 
@@ -24,7 +25,7 @@ function loadProductWorkbench(){
         +  '<h2 class="card-title">Neues Produkt hinzufügen</h2>'
         +  '<input type="file" id="productImage" accept="image/*" />'
         +  '<input type="text" id="productName" placeholder="Name" />'
-        +  '<input type="textarea" id="productDescription" placeholder="Beschreibung" />'
+        +  '<input type="text" id="productDescription" placeholder="Beschreibung" />'
         +  '<input type="number" id="productPrice" step="0.01" placeholder="Preis" />'
         +  '<select id="productCategory">'
         +  '<option value="Cardgame">Cardgame</option>'
@@ -40,7 +41,7 @@ function loadProductWorkbench(){
 function addProduct(){
     console.log("addProductClicked");
     var productName = $("#productName").val();
-    var productDescription = $("productDesctiption").val();
+    var productDescription = $("#productDescription").val();
     var productPrice = parseFloat($("#productPrice").val());
     var productCategory = $("#productCategory").val();
     var productImage = $("#productImage")[0].files[0];
@@ -50,7 +51,7 @@ function addProduct(){
         name: productName,
         description: productDescription,
         price: productPrice,
-        img_path: "8.jpg",
+        img_path: productImage,
         category: productCategory,
         rating: 0
     };
@@ -61,7 +62,7 @@ function addProduct(){
     $.ajax({
         url: "/api/v1/admin/product",
         headers: {
-            "Authorization": "Bearer YOUR_AUTH_TOKEN"
+            "Authorization": sessionStorage.getItem('jwtToken')
         },
         method: "POST",
         contentType: "application/json",
@@ -73,6 +74,7 @@ function addProduct(){
             }
             // Felder zurücksetzen
             $("#productName").val("");
+            $("#productDescription").val("");
             $("#productPrice").val("");
             $("#productCategory").val("");
             $("#productImage").val("");
@@ -85,46 +87,69 @@ function addProduct(){
 };
 
 function loadProductList(productsData){
-    let adminProductListHeader = '<div id="productList">'+
+    let adminProductListHeader = '<li id="adminProducts">' +
+                                 '<div id="productList">'+
                                  '<h2>Produktliste</h2>'+
                                  '<div class="row">' +
+                                 '<div class="col">ID: </div>' +
                                  '<div class="col">Image: </div>' +
                                  '<div class="col">Name: </div>' +
                                  '<div class="col">Beschreibung: </div>' +
                                  '<div class="col">Preis: </div>' +
                                  '<div class="col">Kategorie: </div>' +
                                  '<div class="col">Bewertung: </div>' +
+                                 '<div class="col">Bearbeiten: </div>' +
+                                 '<div class="col">Löschen: </div>' +
                                  '</div>' +
-                                 '<ul id="amdinProducts"></ul>'
+                                 '</li>'
 
         $("#allProductsData").append(adminProductListHeader);
 
         $.each(productsData, function (i, product) {
-        let listItem = '<li>' +
+        let listItem = '<li data-productId="' + product.id + '">' +
             '<div class="row">' +
-            '<div class="col">'+
+            '<div class="col">' + product.id + '</div>' +
+            '<div class="col">' +
             '<img src="../img/' + product.img_path + '" width="100" height="100"/>' +
             '</div>' +
-            '<div class="col">'+product.name + '</div>' +
-            '<div class="col">'+product.description + '</div>' +
-            '<div class="col">'+product.price.toFixed(2) + '</div>' +
-            '<div class="col">'+product.category + '</div>' +
-            '<div class="col">'+product.rating + '</div>' +
-            '</div>' +
-            '</li>' +
-            '<div class="row">' +
-            '<div class="col"><button class="btn btn-primary" id="editProduct">Bearbeiten</button></div>' +
-            '<div class="col"><button class="btn btn-primary" id="deleteProduct">Löschen</button></div>' +
-            '</div>';
+            '<div class="col">' + product.name + '</div>' +
+            '<div class="col">' + product.description + '</div>' +
+            '<div class="col">' + product.price.toFixed(2) + '</div>' +
+            '<div class="col">' + product.category + '</div>' +
+            '<div class="col">' + product.rating + '</div>' +
+            '<div class="col">' + '<button class="btn btn-primary editProduct" id="editProduct">Bearbeiten</button>' +'</div>' +
+            '<div class="col">' + '<button class="btn btn-primary deleteProduct" id="deleteProduct">Löschen</button>' + '</div>'
+            +'</li>';
 
-        $("#amdinProducts").append(listItem);
+        $("#adminProducts").append(listItem);
     });
 }
 
  // Eventlistener für den "Löschen" Button
- $("#amdinProducts").on("click", ".deleteProduct", function() {
-    var listItem = $(this).parent();
-    var index = $("#products li").index(listItem);
-    products.splice(index, 1); // Produkt aus dem Array entfernen
+ function deleteProduct() {
+    let listItem = $(this).closest("li");
+    console.log(listItem);
+    let index = $("#adminProducts li").index(listItem);
+    let productId = listItem.attr("data-productId");
+
+    console.log("index: " + index);
+    console.log("productId: " + productId);
+
+     $.ajax({
+         url: "/api/v1/admin/product/" + productId,
+         method: "DELETE",
+         contentType: "application/json",
+         success: function(response){
+             if (response.statusCode === 200) {
+                 console.log("Produkt gelöscht");
+                 alert("Produkt gelöscht!")
+             }
+         },
+         error: function(xhr, status, error) {
+             console.error("Fehler beim Löschen des Produkts:");
+             console.log(error);
+         }
+     });
+    productsData.splice(index, 1); // Produkt aus dem Array entfernen
     listItem.remove(); // Listenelement entfernen
- });
+ };

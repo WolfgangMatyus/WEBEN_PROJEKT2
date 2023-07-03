@@ -3,12 +3,15 @@ var cartSum = 0.00;
 var voucherAmount = 0.00;
 var taxSum = 0.00;
 var totalAmount = 0.00;
-
-$(document).ready(function(){
-
+/*
+function loadHeaderValues(){
     createCartContent();
     showCartFromStorage();
-    //getCartFromBackendd();
+};
+*/
+$(document).ready( function (){
+    createCartContent();
+    showCartFromStorage();
 });
 
 function toggleCartClick(event) {
@@ -18,9 +21,6 @@ function toggleCartClick(event) {
 
 function addCartProduct(product_id) {
     console.log("product_id: ", product_id)
-    // find in productData
-
-
 
     let cart = localStorage.getItem('cart');
     if(!cart) {
@@ -28,7 +28,6 @@ function addCartProduct(product_id) {
     } else {
         cart = JSON.parse(cart);
     }
-
 
     let toAdd = true;
     $.each(cart, function (i, cart_entry){
@@ -41,34 +40,57 @@ function addCartProduct(product_id) {
     if(toAdd) {
         let entry = {};
         entry.quantity = 1;
-        entry.product = productsData[product_id]
+        entry.product = productsData[product_id-1]
         cart.push(entry);
     }
     localStorage.setItem('cart', JSON.stringify(cart));
 
     $(".Placeholder").remove();
     showCartFromStorage();
+}
 
+function removeCartProduct(product_id) {
+    console.log("product_id wird gelöscht: ", product_id)
+    // find in productData
 
+    let cart = localStorage.getItem('cart');
+    if(!cart) {
+        cart = [];
+    } else {
+        cart = JSON.parse(cart);
+    }
+    let index = cart.indexOf(product_id);
+
+    cart.splice(index, 1);
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    $(".Placeholder").remove();
+    showCartFromStorage();
 }
 
 function showCartFromStorage() {
     $("#cartList").empty();
     let cart = localStorage.getItem('cart');
     cart = JSON.parse(cart);
+    let cartQuantity = 0;
+    cartSum = 0.00;
+    $("#orderPopup").empty();
     $.each(cart, function (i, cart_entry){
         console.log(cart_entry);
-        let cartListItem = '<li class="listItem" id="' + cart_entry.product.id + '">'
+         let cartListItem = '<li class="listItem" id="' + cart_entry.product.id + '">'
             + '<span class="listItemValue" id="productName">' + cart_entry.product.name + '</span>'
             + '<span class="listItemValue Number" id="productQuantity">' + cart_entry.quantity + '</span>'
             + '<span class="listItemValue Number" id="productPriceSingle"> ' + cart_entry.product.price.toFixed(2) + '</span>'
             + '<span class="listItemValue Number" id="productPriceTotal">' + (cart_entry.product.price * cart_entry.quantity).toFixed(2)  + '</span>'
-            + '</li>';
+            + '<button class="btn btn-primary" onclick="removeCartProduct('+cart_entry.product.id+')">Produkt entfernen</button>'
+            + '<button class="btn btn-primary" onclick="addCartProduct('+cart_entry.product.id+')">mehr davon!</button>' + '</li>';
 
         $("#cartList").append(cartListItem);
         $("#orderPopup").append(cartListItem);
 
-        cartSum = cartSum + (cart_entry.product.price * cart_entry.quantity)
+        cartQuantity = cartQuantity + cart_entry.quantity;
+        cartSum = cartSum + (cart_entry.product.price * cart_entry.quantity);
         document.getElementById("cartSum").innerHTML = cartSum;
     });
 
@@ -78,6 +100,7 @@ function showCartFromStorage() {
     document.getElementById("cartSum").innerHTML = cartSum + " €";
     document.getElementById("orderSum").innerHTML = totalAmount + " €";
     document.getElementById("tax-amount").innerHTML = taxSum + " €";
+    document.getElementById("amountProducts").innerHTML = cartQuantity;
 
     $(".Number").css({
         "text-align": "right"
@@ -100,14 +123,9 @@ function drop(event) {
     var product_id = event.dataTransfer.getData("product_id");
 
     addCartProduct(product_id);
-    //sendCartProduct(data);
 }
 
 //-- write ShoppingCart to CartProductsJson
-function sendCartProduct(data) {
-    let to = "cartList";
-    loadCartProducts(to);
-}
 
 function createCartContent() {
     console.log("loadCart");
@@ -177,6 +195,7 @@ function createCartContent() {
         '<option value="Klarna">Klarna</option>' +
         "</select>" +
         '<button class="btn btn-primary" onclick="closePopup()">Zahlungspflichtig bestellen!</button>' +
+        '<button class="btn btn-primary" onclick="closePopup()">Zurück zum Shop!</button>' +
         "</div>";
 
     $("#cartContainer").append(cart);

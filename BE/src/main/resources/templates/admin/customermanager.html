@@ -9,13 +9,16 @@
 <body>
 <div layout:decorator="layout">
     <section layout:fragment="content">
-        <h1>Customer Manager</h1>
+        <div id="popup" class="popup"> </div>
         <h1>Willkommen in der Kundenverwaltung von bestebrettspiele.at!</h1>
         <!--  Kunden verwalten -->
         <!--    Kunden auflisten und deren Bestelldetails einsehen
                 Kunden aktiv/inaktiv setzen
                 Bestellungen bearbeiten -->
-        <container class="container" id="allCustomerData">
+        <container class="container" id="userWorkbenchContainer">
+
+        </container>
+        <container class="container" id="allUserData">
 
         </container>
         <script type="text/javascript" src="js/customermanager.js"></script>

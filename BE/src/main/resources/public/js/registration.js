@@ -11,18 +11,42 @@ function sendRegistrationData(){
 
     var form = $('#registrationForm');
     var isValid = form[0].checkValidity();
+    /*
+        if(!isValid) {
+            form.addClass('was-validated');
+            return;
+        }
 
-    if (!isValid) {
-        form.addClass('was-validated');
-        return;
-    }
+
+            // Get all the radio buttons with the name "option"
+            let radioButtons = document.getElementsByName("option");
+            let selectedOption;
+            // Loop through the radio buttons to find the selected one
+            for (let i = 0; i < radioButtons.length; i++) {
+                if (radioButtons[i].checked) {
+                    // The selected option is found
+                    selectedOption = radioButtons[i].value;
+
+                    // Do something with the selected option
+                    console.log("Selected Option: " + selectedOption);
+
+                    // Exit the loop since we found the selected option
+                    break;
+                }
+            }
+    */
+
 
     var data = {
         firstname: $('#firstname').val(),
         lastname: $('#lastname').val(),
         email: $('#email').val(),
-        password: $('#password').val()
-    };
+        password: $('#password').val(),
+        adresse: $('#adresse').val(),
+        payment: $('input[name="option"]:checked').val(),
+    }
+
+    console.log(data);
 
     $.ajax({
         url: "/api/v1/auth/register",

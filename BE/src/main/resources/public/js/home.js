@@ -1,8 +1,8 @@
 //--- VARIABLES ---//
 
 //--- CODE ---//
-waitFor2Jobs();
-async function waitFor2Jobs() {
+waitForHomeJobs();
+async function waitForHomeJobs() {
     try {
         await getProducts();
         console.log("Beide fertig");
