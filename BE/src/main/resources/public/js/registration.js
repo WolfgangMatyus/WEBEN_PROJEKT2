@@ -8,6 +8,12 @@ function validateInput() {
     var address = document.getElementById("address").value;
     var zip_code = document.getElementById("zip_code").value;
     var town = document.getElementById("town").value;
+/*
+    // Hashen der Passwörter
+    var saltRounds = 10; // Anzahl der Salt-Runden
+    var hashedPassword = bcrypt.hashSync(password, saltRounds);
+    var hashedPassword2 = bcrypt.hashSync(password2, saltRounds);
+*/
     var password = document.getElementById("password").value;
     var password2 = document.getElementById("password2").value;
     var errorLabel = document.getElementById("errorLabel");
@@ -130,47 +136,6 @@ function sendRegistrationData(){
         }
     });
 }
-
-// -- PW Confirmation -- //
-/*
-$(document).ready(function() {
-    // Get references to the password and confirm password input fields
-    var passwordInput = $('#password');
-    var confirmPasswordInput = $('#password2');
-    var passwordError = $('#passwordError');
-
-    // Listen for input changes in the confirm password field
-    confirmPasswordInput.on('input', function() {
-        // Get the values of both password fields
-        var password = passwordInput.val();
-        var confirmPassword = confirmPasswordInput.val();
-
-        // Compare the passwords and show/hide the error message accordingly
-        if (password !== confirmPassword) {
-            passwordError.show();
-        } else {
-            passwordError.hide();
-        }
-    });
-});
-
-$('#password2').on('input', function() {
-    console.log("PW Confirmation")
-    var password1 = $('#password').val();
-    var password2 = $(this).val();
-
-    // Überprüfung der Passwörter
-    if (password1 === password2) {
-        // Passwörter stimmen überein
-        $(this).removeClass('is-invalid').addClass('is-valid');
-        $(this).siblings('.invalid-feedback').text('');
-    } else {
-        // Passwörter stimmen nicht überein
-        $(this).removeClass('is-valid').addClass('is-invalid');
-        $(this).siblings('.invalid-feedback').text('Die Passwörter stimmen nicht überein.');
-    }
-});
-*/
 
 function redirectToHomePage() {
     // Weiterleitung zur Startseite

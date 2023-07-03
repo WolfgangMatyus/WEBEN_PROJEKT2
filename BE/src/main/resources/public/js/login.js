@@ -63,7 +63,7 @@ function sendLoginData(){
     window.location.href = "http://localhost:8181/profile";
 }
 
-
+/*
 //-- ANMELDEDATEN MERKEN COOKIE --//
 
 // Funktion zum Setzen des Cookies
@@ -107,3 +107,4 @@ $("#loginForm").on("submit", function(event) {
     var remember = $("#vehicle1").is(":checked");
     setLoginCookie(email, remember);
 });
+*/
