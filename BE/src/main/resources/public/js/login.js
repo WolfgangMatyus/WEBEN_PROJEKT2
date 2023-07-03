@@ -54,13 +54,14 @@ function sendLoginData(){
             } else {
                 alert('Authentifizierung fehlgeschlagen');
             }
+            window.location.href = "http://localhost:8181/profile";
         },
         error: function(jqXHR, textStatus) {
             console.error(textStatus);
             // Hier kommt die Logik hin, die im Falle eines Fehlers ausgeführt werden soll
+            window.location.href = "http://localhost:8181/";
         }
     });
-    window.location.href = "http://localhost:8181/profile";
 }
 
 /*
