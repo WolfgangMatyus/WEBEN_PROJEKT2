@@ -52,6 +52,30 @@ function addCartProduct(product_id) {
 
 }
 
+function removeCartProduct(product_id) {
+    console.log("product_id wird gelöscht: ", product_id)
+    // find in productData
+
+
+
+    let cart = localStorage.getItem('cart');
+    if(!cart) {
+        cart = [];
+    } else {
+        cart = JSON.parse(cart);
+    }
+    let index = cart.indexOf(product_id);
+
+    cart.splice(index, 1);
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    $(".Placeholder").remove();
+    showCartFromStorage();
+
+}
+
+
 function showCartFromStorage() {
     $("#cartList").empty();
     let cart = localStorage.getItem('cart');
@@ -66,7 +90,8 @@ function showCartFromStorage() {
             + '<span class="listItemValue Number" id="productQuantity">' + cart_entry.quantity + '</span>'
             + '<span class="listItemValue Number" id="productPriceSingle"> ' + cart_entry.product.price.toFixed(2) + '</span>'
             + '<span class="listItemValue Number" id="productPriceTotal">' + (cart_entry.product.price * cart_entry.quantity).toFixed(2)  + '</span>'
-            + '</li>';
+            + '<button class="btn btn-primary" onclick="removeCartProduct('+cart_entry.product.id+')">Produkt entfernen</button>'
+            + '<button class="btn btn-primary" onclick="addCartProduct('+cart_entry.product.id+')">mehr davon!</button>' + '</li>';
 
         $("#cartList").append(cartListItem);
         $("#orderPopup").append(cartListItem);
