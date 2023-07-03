@@ -18,6 +18,31 @@ body{
     min-height: 100vh;
 }
 
+.regbutton {
+    display: inline-block;
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 0.25em;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+}
+
+.regbutton:hover {
+    /* Hover-Stil für den Button */
+    background-color: #0069d9;
+}
+
+.regbutton:focus {
+    /* Fokus-Stil für den Button */
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+}
+
 label{
     color:#000;
 }

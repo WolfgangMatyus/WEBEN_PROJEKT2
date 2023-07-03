@@ -106,9 +106,9 @@ function loadUserData(){
         +'<div class="userDataLabel col-2" for="changeZip_code" id="zip_codeLabel">PLZ: </div>'
         +'<div class="userDataValue col-4" id="zip_codeValue">'+userData.zip_code+'</div>'
         +'</div>'
-        +'<div class="row" id="place">'
-        +'<div class="userDataLabel col-2" for="changePlace" id="placeLabel">Ort: </div>'
-        +'<div class="userDataValue col-4" id="placeValue">'+userData.place+'</div>'
+        +'<div class="row" id="town">'
+        +'<div class="userDataLabel col-2" for="changeTown" id="townLabel">Ort: </div>'
+        +'<div class="userDataValue col-4" id="townValue">'+userData.town+'</div>'
         +'</div>'
 
         let userPaymentType = '<div class="userPaymentData" id="userPaymentData">'
@@ -149,7 +149,7 @@ function changeUserData(){
     $("#lastname").append('<input type="text" class="col-3 changeInput" id="changeLastname" type="text" type="text" placeholder="'+userData.lastname+'"/>');
     $("#address").append('<input type="text" class="col-5 changeInput center" id="changeAddress" type="text" placeholder="'+userData.address+'"/>');
     $("#zip_code").append('<input type="text" class="col-5 changeInput center" id="changeZip_code" type="text" placeholder="'+userData.zip_code+'"/>');
-    $("#place").append('<input type="text" class="col-5 changeInput center" id="changePlace" type="text" placeholder="'+userData.place+'"/>');
+    $("#town").append('<input type="text" class="col-5 changeInput center" id="changeTown" type="text" placeholder="'+userData.town+'"/>');
     $("#changeDataBtn").remove();
     $("#addressData").append('<button class="btn btn-primary" id="updateUser" onclick="updateUser()">Änderung vornehmen</button>');
 }
@@ -162,7 +162,7 @@ function updateUser() {
     if ($('#changeLastname').val() === '') {var updateLastname = userData.lastname} else {updateLastname = $("#changeLastname").val();}
     if ($('#changeAddress').val() === '') {var updateAddress = userData.address} else {updateAddress = $("#changeAddress").val();}
     if ($('#changeZip_code').val() === '') {var updateZip_code = userData.zip_code} else {updateZip_code = $("#changeZip_code").val();}
-    if ($('#changePlace').val() === '') {var updatePlace = userData.place} else {updatePlace = $("#changePlace").val();}
+    if ($('#changeTown').val() === '') {var updateTown = userData.town} else {updateTown = $("#changeTown").val();}
     if ($('#changePayment').val() === '') {var updatePayment = userData.payment} else {updatePayment = $("#changePayment").val();}
 
     // Update Objekt erstellen
@@ -176,7 +176,7 @@ function updateUser() {
         lastname: updateLastname,
         address: updateAddress,
         zip_code: updateZip_code,
-        place: updatePlace,
+        town: updateTown,
         payment: updatePayment,
     };
     console.log("updateUser: " + JSON.stringify(updateUser));
