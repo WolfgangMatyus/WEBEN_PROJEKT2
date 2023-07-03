@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.stereotype.Service;
@@ -139,9 +140,12 @@ public class AuthenticationService {
     var user = repository.findByEmail(username)
             .orElseThrow();
 
-    var jwtToken = jwtService.generateToken(user);
-    revokeAllUserTokens(user);
-    saveUserToken(user, jwtToken);
+    boolean isPasswordCorrect = checkPassword(password, user.getPassword());
+
+    if (isPasswordCorrect) {
+      var jwtToken = jwtService.generateToken(user);
+      revokeAllUserTokens(user);
+      saveUserToken(user, jwtToken);
 
 ////     Setzen Sie den JWT-Token als Bearer-Cookie im Browser
 //    Cookie cookie = new Cookie("Authorization", "Bearer" + jwtToken);
@@ -159,9 +163,14 @@ public class AuthenticationService {
 //    response.addHeader("Authorization", jwtToken);
 //    sessionStorage.setItem('jwtToken', 'your-jwt-token');
 
-    // Geben Sie die AuthenticationResponse zurück, falls erforderlich
-    AuthenticationResponse authenticationResponse = new AuthenticationResponse("Success", 200, "authenticated", jwtToken);
-    return authenticationResponse;
+      // Geben Sie die AuthenticationResponse zurück, falls erforderlich
+      AuthenticationResponse authenticationResponse = new AuthenticationResponse("Success", 200, "authenticated", jwtToken);
+      return authenticationResponse;
+    } else { // If the password is incorrect, you can return an appropriate AuthenticationResponse
+      // indicating authentication failure
+      AuthenticationResponse authenticationResponse = new AuthenticationResponse("Failure", 401, "authentication failed", null);
+      return authenticationResponse;
+    }
   }
 
   private void saveUserToken(User user, String jwtToken) {
@@ -186,6 +195,9 @@ public class AuthenticationService {
     tokenRepository.saveAll(validUserTokens);
   }
 
-
+  public boolean checkPassword(String plainPassword, String hashedPassword) {
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    return passwordEncoder.matches(plainPassword, hashedPassword);
+  }
 
 }
