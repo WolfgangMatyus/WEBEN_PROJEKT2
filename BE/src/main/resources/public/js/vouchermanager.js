@@ -16,13 +16,40 @@ function getAllVouchers() {
         contentType: "application/json",
         url: "/api/v1/admin/voucher",
         success: function (json) {
-            //console.log(json)
             voucherData = json;
-            console.log(voucherData);
+            loadProductList();
         },
         error: function () {
             console.error("An ERROR occured!");
         },
+    });
+}
+
+function loadProductList(){
+    let adminVoucherListHeader = '<div id="voucherList">'+
+        '<h2>Gutscheine</h2>'+
+        '<div class="row">' +
+        '<div class="col">Code: </div>' +
+        '<div class="col">Betrag: </div>' +
+        '<div class="col">Datum: </div>' +
+        '</div>' +
+        '<ul id="adminVouchers"></ul>'
+
+    $("#voucherHeader").append(adminVoucherListHeader);
+
+    $.each(voucherData, function (i, voucher) {
+        let listItem = '<li>' +
+            '<div class="row">' +
+            '<div class="col">'+voucher.id + '</div>' +
+            '<div class="col">'+voucher.amount + '</div>' +
+            '<div class="col">'+voucher.valid_until + '</div>' +
+            '</div>' +
+            '</li>' +
+            '<div class="row">' +
+            '<div class="col"><button class="btn btn-primary" id="deleteProduct">Löschen</button></div>' +
+            '</div>';
+
+        $("#adminVouchers").append(listItem);
     });
 }
 
@@ -52,7 +79,6 @@ function addVoucher(){
 
         success: function(response){
             if (response.statusCode === 200) {
-                console.log("Gutschein angelegt");
                 alert("Neuer Gutschein hinzugefügt!")
             }
             // Felder zurücksetzen
@@ -61,7 +87,6 @@ function addVoucher(){
         },
         error: function(xhr, status, error) {
             console.error("Fehler beim Erstellen des neuen Gutscheins:");
-            console.log(error);
         }
     });
 

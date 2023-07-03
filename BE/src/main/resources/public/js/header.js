@@ -201,6 +201,22 @@ function applyCoupon() {
     var couponInput = document.getElementById("coupon-input").value;
     // Hier können Sie den Gutscheinwert prüfen und die Gesamtsumme entsprechend reduzieren.
     // Beispiel:
+
+    console.log("couponInput", couponInput);
+
+    $.ajax({
+        method: "GET",
+        contentType: "application/json",
+        url: "/api/v1/shop/voucher/" + couponInput + "/valid",
+        success: function (json) {
+            voucherData = json;
+            loadProductList();
+        },
+        error: function () {
+            console.error("An ERROR occured!");
+        },
+    });
+
     var totalAmount = parseFloat(document.getElementById("orderSum").innerHTML).toFixed(2);
     var couponValue = parseFloat(couponInput).toFixed(2);
     if (!isNaN(couponValue)) {

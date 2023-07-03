@@ -85,8 +85,6 @@ function addProduct(){
 };
 
 function loadProductList(productsData){
-    console.log("loadProductList");
-
     let adminProductListHeader = '<div id="productList">'+
                                  '<h2>Produktliste</h2>'+
                                  '<div class="row">' +
@@ -102,7 +100,6 @@ function loadProductList(productsData){
         $("#allProductsData").append(adminProductListHeader);
 
         $.each(productsData, function (i, product) {
-        console.log("addListItem: " + JSON.stringify(productsData));
         let listItem = '<li>' +
             '<div class="row">' +
             '<div class="col">'+
