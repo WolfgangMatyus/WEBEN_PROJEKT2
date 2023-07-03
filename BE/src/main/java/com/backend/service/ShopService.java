@@ -1,8 +1,10 @@
 package com.backend.service;
 
+import com.backend.entity.Invoice;
 import com.backend.entity.Product;
 import com.backend.entity.Voucher;
 import com.backend.repository.CartRepository;
+import com.backend.repository.InvoiceRepository;
 import com.backend.repository.ProductRepository;
 import com.backend.repository.VoucherRepository;
 import com.backend.security.user.User;
@@ -22,6 +24,8 @@ import java.util.Optional;
 public class ShopService {
     private final ProductRepository productRepository;
     private final VoucherRepository voucherRepository;
+    
+    private final InvoiceRepository invoiceRepository;
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();
@@ -98,6 +102,30 @@ public class ShopService {
 
     public Voucher getVoucherById(Integer voucherId) {
         return voucherRepository.findById(voucherId).orElse(null);
+    }
+
+    public Invoice createInvoice(Invoice invoice) {return invoiceRepository.save(invoice);
+    }
+
+    public List<Invoice> getInvoiceByUserID(User user) {return invoiceRepository.findByUserId(user.getId());}
+
+    public List<Invoice> getAllInvoices() {return invoiceRepository.findAll();
+    }
+
+    public void updateInvoice(Integer invoice_id, Invoice invoice) {
+        Invoice invoiceToUpdate = invoiceRepository.getReferenceById(invoice_id);
+        if (invoiceToUpdate != null) {
+            invoiceToUpdate.setInvoiceEntries(invoice.getInvoiceEntries());
+            invoiceToUpdate.setTotal(invoice.getTotal());
+            invoiceToUpdate.setUser(invoice.getUser());
+            invoiceRepository.save(invoiceToUpdate);
+        }
+    }
+
+    public Invoice getInvoiceById(Integer invoiceId) {return invoiceRepository.findById(invoiceId).orElse(null);
+    }
+
+    public void deleteInvoice(Integer invoiceId) {invoiceRepository.deleteById(invoiceId);
     }
 }
 
