@@ -1,5 +1,6 @@
 package com.backend.controller;
 
+import com.backend.entity.Invoice;
 import com.backend.entity.Product;
 import com.backend.entity.Voucher;
 import com.backend.security.user.User;
@@ -124,6 +125,26 @@ public class AdminController {
         if (voucherToDelete != null) {
             shopService.deleteVoucher(voucherId);
             return ResponseEntity.ok("Voucher with id: " + voucherId + " successfully deleted!");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @GetMapping("/invoices")
+    public List<Invoice> getAllInvoices(){return shopService.getAllInvoices();}
+
+    @PutMapping("/{invoice_Id}")
+    public ResponseEntity<String> updateInvoice(@PathVariable("invoice_Id") Integer invoice_Id, @RequestBody Invoice invoice){
+        shopService.updateInvoice(invoice_Id, invoice);
+        return ResponseEntity.ok("Invoice with ID: " + invoice.getId() + " successfully updated!");
+    }
+
+    @DeleteMapping("/invoice/{invoice_Id}")
+    public ResponseEntity<String> deleteInvoice(@PathVariable("invoice_Id") Integer invoiceId){
+        Invoice invoiceToDelete = shopService.getInvoiceById(invoiceId);
+        if (invoiceToDelete != null) {
+            shopService.deleteInvoice(invoiceId);
+            return ResponseEntity.ok("Invoice with id: " + invoiceId + " successfully deleted!");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
