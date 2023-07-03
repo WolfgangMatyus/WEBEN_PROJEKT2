@@ -1,18 +1,9 @@
-
 #productList {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-#listItem li {
-    text-align: center;
-}
-
-.listItemValue {
-    display: inline-block;
-    width: 25%;
-}
 
 #searchInput {
     float: right;
