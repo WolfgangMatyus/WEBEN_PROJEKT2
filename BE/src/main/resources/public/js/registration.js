@@ -134,6 +134,7 @@ function sendRegistrationData(){
         error: function(jqXHR, textStatus, errorThrown) {
             console.error(textStatus, errorThrown);
             // Hier kommt die Logik hin, die im Falle eines Fehlers ausgeführt werden soll
+            redirectToHomePage();
         }
     });
 }
