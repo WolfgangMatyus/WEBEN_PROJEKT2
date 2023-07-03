@@ -14,3 +14,6 @@
     width: 25%;
 }
 
+#searchInput {
+    float: right;
+}

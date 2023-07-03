@@ -16,6 +16,7 @@ async function waitForHomeJobs() {
 //-- SearchFilter Visuals -- //
 function InitializeSearchFilter() {
     $("#categorySearchFilter").append(
+        '<div class="card-header">' +
         '<div id="filterContainer">' +
         '<select id="categoryFilter">' +
         '<option value="">Alle</option>' +
@@ -31,6 +32,7 @@ function InitializeSearchFilter() {
         '<option value="over50"> > €50</option>' +
         '</select>' +
         '<input type="text" id="searchInput" placeholder="Search products">' +
+        '</div>' +
         '</div>'
     );
 }

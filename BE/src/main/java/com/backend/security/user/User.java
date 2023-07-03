@@ -35,7 +35,7 @@ public class User implements UserDetails {
 
   private String address;
   private String zip_code;
-  private String place;
+  private String town;
   private String payment;
 
   @Enumerated(EnumType.STRING)
