@@ -76,6 +76,7 @@ function displayButtonsBasedOnToken() {
         loginButton.style.display = 'none';
         logoutButton.style.display = 'block';
         userHeader.style.display = 'block';
+        profileButton.style.display = 'block';
 
         if(getRoleByCurrentToken() == "ROLE_ADMIN") {
             adminButton.style.display = 'block';
@@ -85,6 +86,7 @@ function displayButtonsBasedOnToken() {
         loginButton.style.display = 'block';
         logoutButton.style.display = 'none';
         userHeader.style.display = 'none';
+        profileButton.style.display = 'none';
     }
 }
 
